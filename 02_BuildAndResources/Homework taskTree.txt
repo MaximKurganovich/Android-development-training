@@ -1,0 +1,159 @@
+:app:assembleDebug
++--- :app:assembleFreeVersionDebug
+|    +--- :app:compileFreeVersionDebugSources
+|    |    \--- :app:compileFreeVersionDebugJavaWithJavac
+|    |         +--- :app:compileFreeVersionDebugAidl
+|    |         |    \--- :app:preFreeVersionDebugBuild
+|    |         |         \--- :app:preBuild
+|    |         +--- :app:compileFreeVersionDebugKotlin
+|    |         |    +--- :app:compileFreeVersionDebugAidl *
+|    |         |    +--- :app:compileFreeVersionDebugRenderscript
+|    |         |    |    \--- :app:preFreeVersionDebugBuild *
+|    |         |    +--- :app:generateFreeVersionDebugBuildConfig
+|    |         |    |    \--- :app:preFreeVersionDebugBuild *
+|    |         |    \--- :app:processFreeVersionDebugResources
+|    |         |         +--- :app:mainApkListPersistenceFreeVersionDebug
+|    |         |         |    \--- :app:preFreeVersionDebugBuild *
+|    |         |         +--- :app:mergeFreeVersionDebugResources
+|    |         |         |    +--- :app:generateFreeVersionDebugResources
+|    |         |         |    |    +--- :app:compileFreeVersionDebugRenderscript *
+|    |         |         |    |    \--- :app:generateFreeVersionDebugResValues
+|    |         |         |    |         \--- :app:preFreeVersionDebugBuild *
+|    |         |         |    \--- :app:preFreeVersionDebugBuild *
+|    |         |         +--- :app:preFreeVersionDebugBuild *
+|    |         |         \--- :app:processFreeVersionDebugManifest
+|    |         |              +--- :app:createFreeVersionDebugCompatibleScreenManifests
+|    |         |              |    +--- :app:mainApkListPersistenceFreeVersionDebug *
+|    |         |              |    \--- :app:preFreeVersionDebugBuild *
+|    |         |              +--- :app:extractDeepLinksFreeVersionDebug
+|    |         |              |    \--- :app:preFreeVersionDebugBuild *
+|    |         |              +--- :app:mainApkListPersistenceFreeVersionDebug *
+|    |         |              \--- :app:preFreeVersionDebugBuild *
+|    |         +--- :app:compileFreeVersionDebugRenderscript *
+|    |         +--- :app:generateFreeVersionDebugBuildConfig *
+|    |         +--- :app:javaPreCompileFreeVersionDebug
+|    |         |    +--- :app:compileFreeVersionDebugKotlin *
+|    |         |    \--- :app:preFreeVersionDebugBuild *
+|    |         +--- :app:preFreeVersionDebugBuild *
+|    |         \--- :app:processFreeVersionDebugResources *
+|    \--- :app:packageFreeVersionDebug
+|         +--- :app:compileFreeVersionDebugJavaWithJavac *
+|         +--- :app:mainApkListPersistenceFreeVersionDebug *
+|         +--- :app:mergeExtDexFreeVersionDebug
+|         |    +--- :app:checkFreeVersionDebugDuplicateClasses
+|         |    |    \--- :app:preFreeVersionDebugBuild *
+|         |    \--- :app:preFreeVersionDebugBuild *
+|         +--- :app:mergeFreeVersionDebugAssets
+|         |    +--- :app:compileFreeVersionDebugShaders
+|         |    |    +--- :app:mergeFreeVersionDebugShaders
+|         |    |    |    \--- :app:preFreeVersionDebugBuild *
+|         |    |    \--- :app:preFreeVersionDebugBuild *
+|         |    +--- :app:generateFreeVersionDebugAssets
+|         |    |    \--- :app:compileFreeVersionDebugShaders *
+|         |    \--- :app:preFreeVersionDebugBuild *
+|         +--- :app:mergeFreeVersionDebugJavaResource
+|         |    +--- :app:compileFreeVersionDebugKotlin *
+|         |    +--- :app:preFreeVersionDebugBuild *
+|         |    \--- :app:processFreeVersionDebugJavaRes
+|         |         \--- :app:preFreeVersionDebugBuild *
+|         +--- :app:mergeLibDexFreeVersionDebug
+|         |    +--- :app:checkFreeVersionDebugDuplicateClasses *
+|         |    \--- :app:preFreeVersionDebugBuild *
+|         +--- :app:mergeProjectDexFreeVersionDebug
+|         |    +--- :app:checkFreeVersionDebugDuplicateClasses *
+|         |    +--- :app:dexBuilderFreeVersionDebug
+|         |    |    +--- :app:compileFreeVersionDebugJavaWithJavac *
+|         |    |    +--- :app:compileFreeVersionDebugKotlin *
+|         |    |    +--- :app:preFreeVersionDebugBuild *
+|         |    |    \--- :app:processFreeVersionDebugResources *
+|         |    \--- :app:preFreeVersionDebugBuild *
+|         +--- :app:preFreeVersionDebugBuild *
+|         +--- :app:processFreeVersionDebugManifest *
+|         +--- :app:processFreeVersionDebugResources *
+|         +--- :app:stripFreeVersionDebugDebugSymbols
+|         |    +--- :app:mergeFreeVersionDebugNativeLibs
+|         |    |    +--- :app:mergeFreeVersionDebugJniLibFolders
+|         |    |    |    \--- :app:preFreeVersionDebugBuild *
+|         |    |    \--- :app:preFreeVersionDebugBuild *
+|         |    \--- :app:preFreeVersionDebugBuild *
+|         \--- :app:validateSigningFreeVersionDebug
+|              \--- :app:preFreeVersionDebugBuild *
+\--- :app:assemblePaidVersionDebug
+     +--- :app:compilePaidVersionDebugSources
+     |    \--- :app:compilePaidVersionDebugJavaWithJavac
+     |         +--- :app:compilePaidVersionDebugAidl
+     |         |    \--- :app:prePaidVersionDebugBuild
+     |         |         \--- :app:preBuild *
+     |         +--- :app:compilePaidVersionDebugKotlin
+     |         |    +--- :app:compilePaidVersionDebugAidl *
+     |         |    +--- :app:compilePaidVersionDebugRenderscript
+     |         |    |    \--- :app:prePaidVersionDebugBuild *
+     |         |    +--- :app:generatePaidVersionDebugBuildConfig
+     |         |    |    \--- :app:prePaidVersionDebugBuild *
+     |         |    \--- :app:processPaidVersionDebugResources
+     |         |         +--- :app:mainApkListPersistencePaidVersionDebug
+     |         |         |    \--- :app:prePaidVersionDebugBuild *
+     |         |         +--- :app:mergePaidVersionDebugResources
+     |         |         |    +--- :app:generatePaidVersionDebugResources
+     |         |         |    |    +--- :app:compilePaidVersionDebugRenderscript *
+     |         |         |    |    \--- :app:generatePaidVersionDebugResValues
+     |         |         |    |         \--- :app:prePaidVersionDebugBuild *
+     |         |         |    \--- :app:prePaidVersionDebugBuild *
+     |         |         +--- :app:prePaidVersionDebugBuild *
+     |         |         \--- :app:processPaidVersionDebugManifest
+     |         |              +--- :app:createPaidVersionDebugCompatibleScreenManifests
+     |         |              |    +--- :app:mainApkListPersistencePaidVersionDebug *
+     |         |              |    \--- :app:prePaidVersionDebugBuild *
+     |         |              +--- :app:extractDeepLinksPaidVersionDebug
+     |         |              |    \--- :app:prePaidVersionDebugBuild *
+     |         |              +--- :app:mainApkListPersistencePaidVersionDebug *
+     |         |              \--- :app:prePaidVersionDebugBuild *
+     |         +--- :app:compilePaidVersionDebugRenderscript *
+     |         +--- :app:generatePaidVersionDebugBuildConfig *
+     |         +--- :app:javaPreCompilePaidVersionDebug
+     |         |    +--- :app:compilePaidVersionDebugKotlin *
+     |         |    \--- :app:prePaidVersionDebugBuild *
+     |         +--- :app:prePaidVersionDebugBuild *
+     |         \--- :app:processPaidVersionDebugResources *
+     \--- :app:packagePaidVersionDebug
+          +--- :app:compilePaidVersionDebugJavaWithJavac *
+          +--- :app:mainApkListPersistencePaidVersionDebug *
+          +--- :app:mergeExtDexPaidVersionDebug
+          |    +--- :app:checkPaidVersionDebugDuplicateClasses
+          |    |    \--- :app:prePaidVersionDebugBuild *
+          |    \--- :app:prePaidVersionDebugBuild *
+          +--- :app:mergeLibDexPaidVersionDebug
+          |    +--- :app:checkPaidVersionDebugDuplicateClasses *
+          |    \--- :app:prePaidVersionDebugBuild *
+          +--- :app:mergePaidVersionDebugAssets
+          |    +--- :app:compilePaidVersionDebugShaders
+          |    |    +--- :app:mergePaidVersionDebugShaders
+          |    |    |    \--- :app:prePaidVersionDebugBuild *
+          |    |    \--- :app:prePaidVersionDebugBuild *
+          |    +--- :app:generatePaidVersionDebugAssets
+          |    |    \--- :app:compilePaidVersionDebugShaders *
+          |    \--- :app:prePaidVersionDebugBuild *
+          +--- :app:mergePaidVersionDebugJavaResource
+          |    +--- :app:compilePaidVersionDebugKotlin *
+          |    +--- :app:prePaidVersionDebugBuild *
+          |    \--- :app:processPaidVersionDebugJavaRes
+          |         \--- :app:prePaidVersionDebugBuild *
+          +--- :app:mergeProjectDexPaidVersionDebug
+          |    +--- :app:checkPaidVersionDebugDuplicateClasses *
+          |    +--- :app:dexBuilderPaidVersionDebug
+          |    |    +--- :app:compilePaidVersionDebugJavaWithJavac *
+          |    |    +--- :app:compilePaidVersionDebugKotlin *
+          |    |    +--- :app:prePaidVersionDebugBuild *
+          |    |    \--- :app:processPaidVersionDebugResources *
+          |    \--- :app:prePaidVersionDebugBuild *
+          +--- :app:prePaidVersionDebugBuild *
+          +--- :app:processPaidVersionDebugManifest *
+          +--- :app:processPaidVersionDebugResources *
+          +--- :app:stripPaidVersionDebugDebugSymbols
+          |    +--- :app:mergePaidVersionDebugNativeLibs
+          |    |    +--- :app:mergePaidVersionDebugJniLibFolders
+          |    |    |    \--- :app:prePaidVersionDebugBuild *
+          |    |    \--- :app:prePaidVersionDebugBuild *
+          |    \--- :app:prePaidVersionDebugBuild *
+          \--- :app:validateSigningPaidVersionDebug
+               \--- :app:prePaidVersionDebugBuild *
