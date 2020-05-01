@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">SkillboxHelloWorld</string>
+    <string name="localization">Русский язык</string>
+    <string name="main_test_string">Светло</string>
+</resources>

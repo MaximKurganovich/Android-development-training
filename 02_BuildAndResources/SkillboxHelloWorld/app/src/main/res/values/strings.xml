@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">SkillboxHelloWorld</string>
+    <string name="localization">English</string>
+    <plurals name="main_plural_string">
+        <item quantity="one">%1$d Значение</item>
+        <item quantity="few">%1$d Значения</item>
+        <item quantity="other">%1$d Значений</item>
+    </plurals>
+    <string name="main_test_string">Светло</string>
+</resources>
