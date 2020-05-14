@@ -1,27 +1,28 @@
 package com.skillbox.homework4
 
+import kotlin.random.Random
+
 abstract class AbstractWeapon (val maxCountOfBullets: Int, val fireType: FireType) {
     private var listAmmo = mutableListOf<Ammo>()
     private var emptyClip = listAmmo.isEmpty()
 
-    private fun bulletMaking(): Ammo {
-        return when ((Math.random()*100).toInt()) {
-            in 0..15 -> Ammo.CRITICAL
-            in 16..45 -> Ammo.STRENGTHENED
-            else -> Ammo.ORDINARY
-        }
-    }
+    //Создает патроны
 
+    abstract fun bulletMaking(): Ammo
+
+
+    // Перезарядка оружия
     fun recharge() {
         val range: IntRange = 1 .. maxCountOfBullets
         var newListAmmo = mutableListOf<Ammo>()
         for (item in range) {
             newListAmmo.add(bulletMaking())
         }
-        listAmmo.addAll(newListAmmo)
+        listAmmo = newListAmmo
     }
 
-    fun addingBullets () {
+    // Получение патронов для выстеров
+    fun addingBullets (): List<Ammo> {
         val count = minOf(fireType.countOfBullets, listAmmo.size)
         val listAmmoAttack = mutableListOf<Ammo>()
         val range: IntRange = 1..count
@@ -29,12 +30,29 @@ abstract class AbstractWeapon (val maxCountOfBullets: Int, val fireType: FireTyp
             listAmmoAttack.add(listAmmo[0])
             listAmmo.removeAt(0)
         }
+        return listAmmoAttack
     }
 
     object Weapons {
-        val UZI = object: AbstractWeapon (maxCountOfBullets = 18, fireType = FireType.Queue) {}
-        val SAW = object: AbstractWeapon (maxCountOfBullets = 50, fireType = FireType.Queue) {}
-        val M1911 = object: AbstractWeapon (maxCountOfBullets = 22, fireType = FireType.Single) {}
-        val OICW = object: AbstractWeapon (maxCountOfBullets = 14, fireType = FireType.Single) {}
+        val UZI = object: AbstractWeapon (maxCountOfBullets = 18, fireType = FireType.Queue) {
+            override fun bulletMaking(): Ammo {
+                return Ammo.ORDINARY
+                }
+            }
+        }
+        val SAW = object: AbstractWeapon (maxCountOfBullets = 50, fireType = FireType.Queue) {
+            override fun bulletMaking(): Ammo {
+                return Ammo.ORDINARY
+            }
+        }
+        val M1911 = object: AbstractWeapon (maxCountOfBullets = 22, fireType = FireType.Single) {
+            override fun bulletMaking(): Ammo {
+                return Ammo.STRENGTHENED
+            }
+        }
+        val OICW = object: AbstractWeapon (maxCountOfBullets = 14, fireType = FireType.Single) {
+            override fun bulletMaking(): Ammo {
+                return Ammo.CRITICAL
+            }
+        }
     }
-}
