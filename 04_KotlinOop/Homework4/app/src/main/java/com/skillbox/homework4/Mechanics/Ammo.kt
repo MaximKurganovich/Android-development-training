@@ -1,4 +1,4 @@
-package com.skillbox.homework4
+package com.skillbox.homework4.Mechanics
 
 import kotlin.random.Random
 import kotlin.random.nextInt

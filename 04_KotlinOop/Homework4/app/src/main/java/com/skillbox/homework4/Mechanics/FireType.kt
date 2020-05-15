@@ -1,4 +1,4 @@
-package com.skillbox.homework4
+package com.skillbox.homework4.Mechanics
 
 sealed class FireType(val countOfBullets: Int) {
     object Single: FireType(countOfBullets = 1)

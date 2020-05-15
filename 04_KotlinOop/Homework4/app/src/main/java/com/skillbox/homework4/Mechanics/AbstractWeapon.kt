@@ -1,10 +1,8 @@
-package com.skillbox.homework4
-
-import kotlin.random.Random
+package com.skillbox.homework4.Mechanics
 
 abstract class AbstractWeapon (val maxCountOfBullets: Int, val fireType: FireType) {
     private var listAmmo = mutableListOf<Ammo>()
-    private var emptyClip = listAmmo.isEmpty()
+    var emptyClip = listAmmo.isEmpty()
 
     //Создает патроны
 
@@ -34,25 +32,25 @@ abstract class AbstractWeapon (val maxCountOfBullets: Int, val fireType: FireTyp
     }
 
     object Weapons {
-        val UZI = object: AbstractWeapon (maxCountOfBullets = 18, fireType = FireType.Queue) {
-            override fun bulletMaking(): Ammo {
-                return Ammo.ORDINARY
-                }
-            }
-        }
-        val SAW = object: AbstractWeapon (maxCountOfBullets = 50, fireType = FireType.Queue) {
+        val UZI = object : AbstractWeapon(maxCountOfBullets = 18, fireType = FireType.Queue) {
             override fun bulletMaking(): Ammo {
                 return Ammo.ORDINARY
             }
         }
-        val M1911 = object: AbstractWeapon (maxCountOfBullets = 22, fireType = FireType.Single) {
+        val SAW = object : AbstractWeapon(maxCountOfBullets = 50, fireType = FireType.Queue) {
+            override fun bulletMaking(): Ammo {
+                return Ammo.ORDINARY
+            }
+        }
+        val M1911 = object : AbstractWeapon(maxCountOfBullets = 22, fireType = FireType.Single) {
             override fun bulletMaking(): Ammo {
                 return Ammo.STRENGTHENED
             }
         }
-        val OICW = object: AbstractWeapon (maxCountOfBullets = 14, fireType = FireType.Single) {
+        val OICW = object : AbstractWeapon(maxCountOfBullets = 14, fireType = FireType.Single) {
             override fun bulletMaking(): Ammo {
                 return Ammo.CRITICAL
             }
         }
     }
+}
