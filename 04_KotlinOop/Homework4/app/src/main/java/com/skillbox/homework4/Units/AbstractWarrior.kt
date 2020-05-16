@@ -12,14 +12,14 @@ abstract class AbstractWarrior (
     val weapon: AbstractWeapon
 ): Warrior {
 
-    var HP: Int = maxHP
+    var hp: Int = maxHP
+    override var isKilled: Boolean = false
 
-    override fun attack (warrior: Warrior): Int {
-        return if (weapon.emptyClip) {
+    override fun attack (warrior: Warrior) {
+        var damage = 0
+        if (weapon.emptyClip) {
             weapon.recharge()
-            0
         } else {
-            var damage = 0
             val ammo = weapon.addingBullets() as MutableList<Ammo>
             val range: IntRange = 0..ammo.size
             for (item in range) {
@@ -27,12 +27,15 @@ abstract class AbstractWarrior (
                     damage += weapon.bulletMaking().takingCurrentDamage(ammo[item])
                 }
             }
-            damage
         }
-
+        warrior.takeDamage(damage = damage)
     }
 
     override fun takeDamage(damage: Int) {
-        HP -= damage
+        hp -= damage
+        if (hp <= 0) {
+            hp = 0
+            isKilled = true
+        }
     }
 }

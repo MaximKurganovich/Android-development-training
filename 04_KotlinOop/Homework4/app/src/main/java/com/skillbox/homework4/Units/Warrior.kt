@@ -4,7 +4,7 @@ interface Warrior {
     var isKilled: Boolean // Состояние юнита
     val chanceToDodge: Int // Шанс увернуться от атаки
 
-    fun attack (warrior: Warrior): Int
+    fun attack (warrior: Warrior)
     fun takeDamage (damage: Int)
 
 }
