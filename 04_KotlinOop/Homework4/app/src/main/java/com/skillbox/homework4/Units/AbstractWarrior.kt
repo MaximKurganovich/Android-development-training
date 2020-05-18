@@ -20,8 +20,8 @@ abstract class AbstractWarrior (
         if (weapon.emptyClip) {
             weapon.recharge()
         } else {
-            val ammo = weapon.addingBullets() as MutableList<Ammo>
-            val range: IntRange = 0..ammo.size
+            val ammo = weapon.addingBullets()
+            val range: IntRange = 0 until ammo.size
             for (item in range) {
                 if (Random.nextInt(1..100) <= accuracy - warrior.chanceToDodge) {
                     damage += weapon.bulletMaking().takingCurrentDamage(ammo[item])

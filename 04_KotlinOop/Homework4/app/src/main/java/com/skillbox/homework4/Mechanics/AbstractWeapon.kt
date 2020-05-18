@@ -1,7 +1,7 @@
 package com.skillbox.homework4.Mechanics
 
 abstract class AbstractWeapon (val maxCountOfBullets: Int, val fireType: FireType) {
-    private var listAmmo = mutableListOf<Ammo>()
+    var listAmmo = mutableListOf<Ammo>()
     var emptyClip = listAmmo.isEmpty()
 
     //Создает патроны
@@ -10,23 +10,27 @@ abstract class AbstractWeapon (val maxCountOfBullets: Int, val fireType: FireTyp
 
 
     // Перезарядка оружия
-    fun recharge() {
+    open fun recharge() {
         val range: IntRange = 1 .. maxCountOfBullets
         var newListAmmo = mutableListOf<Ammo>()
         for (item in range) {
             newListAmmo.add(bulletMaking())
         }
         listAmmo = newListAmmo
+        emptyClip = false
     }
 
     // Получение патронов для выстеров
-    fun addingBullets (): List<Ammo> {
+    fun addingBullets (): MutableList<Ammo> {
         val count = minOf(fireType.countOfBullets, listAmmo.size)
         val listAmmoAttack = mutableListOf<Ammo>()
         val range: IntRange = 1..count
         for (item in range) {
             listAmmoAttack.add(listAmmo[0])
             listAmmo.removeAt(0)
+        }
+        if (listAmmo.isEmpty()) {
+            emptyClip = true
         }
         return listAmmoAttack
     }
