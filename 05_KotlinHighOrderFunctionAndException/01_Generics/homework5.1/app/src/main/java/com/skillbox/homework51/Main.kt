@@ -2,7 +2,7 @@ package com.skillbox.homework51
 
 fun main () {
     // exercise #1
-    val list = listOf<Number>(125.54f, 53, 248.0, 871236L, -36)
+    val list = listOf<Number>(125.54f, 53, 248.0, 871236L, -36, Long.MAX_VALUE + 1.0, 124f, Int.MAX_VALUE - 1)
     val (realNumbers, wholeNumbers) =  genericFilter(list).partition { it is Double || it is Float }
     println("Четные вещественные числа: $realNumbers")
     println("Четные целые числа: $wholeNumbers")
@@ -26,18 +26,5 @@ fun main () {
 }
 
 fun <T: Number> genericFilter (list: List<T>): List<T> {
-    var evenNumbers: List<T>
-    val number = mutableListOf<T>()
-    var range = list.indices
-    var translator: Long
-    for (item in range) {
-        if (list[item] is Double || list[item] is Float ) {
-            translator = list[item].toLong()
-            if (translator.toDouble() == list[item] || translator.toFloat() == list[item]) {
-                number.add(list[item])
-            }
-        } else number.add(list[item])
-    }
-    evenNumbers = number.filter { it.toLong() % 2 == 0.toLong() }
-    return evenNumbers
+    return list.filter { it.toDouble() % 2 == 0.0 }
 }
