@@ -2,7 +2,7 @@ package com.skillbox.homework51
 
 fun main () {
     // exercise #1
-    val list = listOf<Number>(125.54f, 53, 248.0, 871236L, -36, Long.MAX_VALUE + 1.0, 124f, Int.MAX_VALUE - 1)
+    val list = listOf<Number>(125.54f, 53, 248.0, 871236L, -36, Long.MAX_VALUE + 1.0, 124f, Int.MAX_VALUE - 1, Long.MAX_VALUE-4)
     val (realNumbers, wholeNumbers) =  genericFilter(list).partition { it is Double || it is Float }
     println("Четные вещественные числа: $realNumbers")
     println("Четные целые числа: $wholeNumbers")
@@ -22,9 +22,12 @@ fun main () {
     val valueAnyString: Result<Any, String> = result()
 //    val valueIntChar: Result<Int, CharSequence> = result()
 //    val valueIntAny: Result<Int, Any> = result()
-
+    
 }
 
 fun <T: Number> genericFilter (list: List<T>): List<T> {
-    return list.filter { it.toDouble() % 2 == 0.0 }
+    var (realNumbers, wholeNumbers: List<T>) = list.partition { it is Double || it is Float }
+    realNumbers = realNumbers.filter { it.toDouble() % 2 == 0.0 }
+    wholeNumbers = wholeNumbers.filter { it.toLong() % 2 == 0.toLong() }
+    return wholeNumbers + realNumbers
 }
