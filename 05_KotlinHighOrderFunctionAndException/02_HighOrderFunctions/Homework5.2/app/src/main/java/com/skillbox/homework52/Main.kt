@@ -1,13 +1,26 @@
 package com.skillbox.homework51
 
 fun main () {
-    val abs = Queue<Int>()
-    abs.enqueue(5)
-    abs.enqueue(50)
-    abs.enqueue(501)
+    val example1 = Queue<Int>()
+    example1.enqueue(5)
+    example1.enqueue(50)
+    example1.enqueue(501)
 
-    println(abs.filter({it < 50}))
-    println(abs.filter { it.toString().length <= 2 })
+    println(example1.filter({it < 50}))
+    println(example1.filter { it.toString().length <= 2 })
+    println(example1.filter())
+    println()
+
+    val example2 = Queue<String>()
+    example2.enqueue("first")
+    example2.enqueue("second")
+    example2.enqueue("third")
+
+    println(example2.filter { it.length < 2 })
+    println(example2.filter { it.contains("i") })
+    println(example2.filter())
+
+
 
 
 

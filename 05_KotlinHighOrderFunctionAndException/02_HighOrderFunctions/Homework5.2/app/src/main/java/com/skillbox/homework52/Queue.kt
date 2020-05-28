@@ -2,6 +2,7 @@ package com.skillbox.homework51
 
 class Queue <T> {
     private val queue: MutableList<T> = mutableListOf()
+    private var defaultFilter: (T) -> Boolean = {it.toString().length < 3}
 
     fun enqueue(item: T) {
         queue.add(item)
@@ -13,8 +14,16 @@ class Queue <T> {
         return a
     }
 
-    fun filter (filt: (T) -> Boolean): List<T> {
-        return queue.filter(filt)
+    fun filter (filt: (T) -> Boolean = defaultFilter): Queue<T> {
+        val newObj = Queue<T>()
+        for (item in queue.indices) {
+            if (filt(queue[item])) newObj.enqueue(queue[item])
+        }
+        return newObj
+    }
+
+    override fun toString(): String {
+        return "Queue($queue)"
     }
 
 }
