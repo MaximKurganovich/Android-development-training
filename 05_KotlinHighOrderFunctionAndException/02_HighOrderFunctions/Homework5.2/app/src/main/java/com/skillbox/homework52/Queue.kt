@@ -3,6 +3,11 @@ package com.skillbox.homework51
 class Queue <T> {
     private val queue: MutableList<T> = mutableListOf()
     private var defaultFilter: (T) -> Boolean = {it.toString().length < 3}
+    fun bool (x: Int) = x % 2 != 0
+
+    fun getQueue(): MutableList<T> {
+        return queue
+    }
 
     fun enqueue(item: T) {
         queue.add(item)

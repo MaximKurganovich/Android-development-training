@@ -6,7 +6,7 @@ fun main () {
     example1.enqueue(50)
     example1.enqueue(501)
 
-    println(example1.filter({it < 50}))
+    println(example1.filter({ it < 50 }))
     println(example1.filter { it.toString().length <= 2 })
     println(example1.filter())
     println()
@@ -21,7 +21,9 @@ fun main () {
     println(example2.filter())
 
 
+    println(example1.filter(::bool))
+}
 
-
-
+fun bool (x: Int): Boolean {
+    return x % 2 != 0
 }
