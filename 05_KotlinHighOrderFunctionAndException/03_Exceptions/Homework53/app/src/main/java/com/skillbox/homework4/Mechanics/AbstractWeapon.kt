@@ -1,5 +1,7 @@
 package com.skillbox.homework4.Mechanics
 
+import com.skillbox.homework4.Units.NoAmmoException
+
 abstract class AbstractWeapon (val maxCountOfBullets: Int, val fireType: FireType) {
     var listAmmo = mutableListOf<Ammo>()
     var emptyClip = listAmmo.isEmpty()
@@ -30,7 +32,8 @@ abstract class AbstractWeapon (val maxCountOfBullets: Int, val fireType: FireTyp
             listAmmo.removeAt(0)
         }
         if (listAmmo.isEmpty()) {
-            emptyClip = true
+            throw NoAmmoException ()
+//            emptyClip = true
         }
         return listAmmoAttack
     }

@@ -1,6 +1,7 @@
 package com.skillbox.homework4.Units
 
 import com.skillbox.homework4.Mechanics.AbstractWeapon
+import com.skillbox.homework4.Mechanics.Ammo
 import kotlin.random.Random
 import kotlin.random.nextInt
 
@@ -16,10 +17,17 @@ abstract class AbstractWarrior (
 
     override fun attack (warrior: Warrior) {
         var damage = 0
-        if (weapon.emptyClip) {
-            throw NoAmmoException ()
-//            weapon.recharge()
-        } else {
+        try {
+            val ammo = weapon.addingBullets()
+            val range: IntRange = 0 until ammo.size
+            for (item in range) {
+                if (Random.nextInt(1..100) <= accuracy - warrior.chanceToDodge) {
+                    damage += weapon.bulletMaking().takingCurrentDamage(ammo[item])
+                }
+            }
+        }
+        catch (t: NoAmmoException) {
+            weapon.recharge()
             val ammo = weapon.addingBullets()
             val range: IntRange = 0 until ammo.size
             for (item in range) {
@@ -39,6 +47,14 @@ abstract class AbstractWarrior (
         }
     }
 
+/*
+val a: MutableList<Ammo> = try {
+    val ammo = weapon.addingBullets()
+    } catch (t: NoAmmoException) {
+        weapon.recharge()
+            val ammo = weapon.addingBullets()
+            }
+ */
 }
 
 class NoAmmoException: Exception ()

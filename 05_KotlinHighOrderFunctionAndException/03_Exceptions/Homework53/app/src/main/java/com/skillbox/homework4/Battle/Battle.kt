@@ -30,17 +30,8 @@ class Battle (numberInTeam:Int) {
         val range = 0 until maxOf (team1.teamWarrior.size, team2.teamWarrior.size)
         for (item in range) {
             if (survivingTeam1.getOrNull(item) != null && survivingTeam2.getOrNull(item) != null) {
-                try {
                     survivingTeam1[item].attack(survivingTeam2[Random.nextInt(survivingTeam2.indices)])
-                } catch (t: NoAmmoException) {
-                    survivingTeam1[item].weapon.recharge()
-                }
-                try {
                     survivingTeam2[item].attack(survivingTeam1[Random.nextInt(survivingTeam1.indices)])
-                } catch (t: NoAmmoException) {
-                    survivingTeam2[item].weapon.recharge()
-                }
-
                 }
 
         }
