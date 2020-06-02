@@ -24,17 +24,19 @@ abstract class AbstractWeapon (val maxCountOfBullets: Int, val fireType: FireTyp
 
     // Получение патронов для выстеров
     fun addingBullets (): MutableList<Ammo> {
-        val count = minOf(fireType.countOfBullets, listAmmo.size)
+//        val count = minOf(fireType.countOfBullets, listAmmo.size)
+        val count = fireType.countOfBullets
         val listAmmoAttack = mutableListOf<Ammo>()
         val range: IntRange = 1..count
         for (item in range) {
+            if (listAmmo.isEmpty()) {
+                throw NoAmmoException ()
+//            emptyClip = true
+            }
             listAmmoAttack.add(listAmmo[0])
             listAmmo.removeAt(0)
         }
-        if (listAmmo.isEmpty()) {
-            throw NoAmmoException ()
-//            emptyClip = true
-        }
+
         return listAmmoAttack
     }
 
