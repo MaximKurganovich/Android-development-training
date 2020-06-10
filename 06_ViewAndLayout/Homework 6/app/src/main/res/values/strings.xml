@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Homework 6</string>
+    <string name="login_password">Введите логин и пароль</string>
+    <string name="login">Логин</string>
+    <string name="password">Пароль</string>
+    <string name="deal">Я согласен с условиями Пользавательского соглашения</string>
+    <string name="login_button">Вход</string>
+    <string name="login_toast">Логин прошел успешно</string>
+</resources>
