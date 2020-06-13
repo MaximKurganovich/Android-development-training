@@ -11,8 +11,11 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.view.*
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,7 +71,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 //    Метод для обработчика кнопки. При нажатии на кнопку все элементы становятся недоступными,
-//    создается progressBar, далее он добавляется в LinearLayout. Через 2 секунды элементы становятся
+//    создается progressBar, далее он добавляется в ConstraintLayout. Через 2 секунды элементы становятся
 //    доступны для взаимодействия, progressBar удаляется. В принципе можно обойтись без этого метода,
 //    скопировав все в обработчик кнопки
     private fun makeLoginOperation() {
@@ -76,20 +79,24 @@ class MainActivity : AppCompatActivity() {
         editPassword.isEnabled = false
         check.isEnabled = false
         button.isEnabled = false
+
         val progressBar = ProgressBar(this).apply {
-            layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-            ).apply {
-                gravity = Gravity.CENTER
-            }.apply {
-                topMargin = 8
+                id = View.generateViewId()
             }
-        }
+
         container.addView(progressBar)
+        ConstraintSet().apply {
+            constrainHeight(progressBar.id, ConstraintSet.WRAP_CONTENT)
+            constrainWidth(progressBar.id, ConstraintSet.WRAP_CONTENT)
+            connect(progressBar.id, ConstraintSet.TOP, R.id.button, ConstraintSet.BOTTOM)
+            connect(progressBar.id, ConstraintSet.LEFT, ConstraintSet.PARENT_ID, ConstraintSet.LEFT)
+            connect(progressBar.id, ConstraintSet.RIGHT, ConstraintSet.PARENT_ID, ConstraintSet.RIGHT)
+        }.applyTo(container)
 
         Handler().postDelayed({
+            editLogin.text.clear()
             editLogin.isEnabled = true
+            editPassword.text.clear()
             editPassword.isEnabled = true
             check.isEnabled = true
             button.isEnabled = true
