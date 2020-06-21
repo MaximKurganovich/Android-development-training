@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_1_menu"
+        android:icon="@drawable/ic_cake"
+        android:title="@string/menu_icon_cake">
+    </item>
+
+    <item
+        android:id="@+id/action_2_menu"
+        android:icon="@drawable/ic_color_lens"
+        android:title="@string/menu_color_lens_icon"
+        android:iconTint="@android:color/white">
+
+    </item>
+
+</menu>

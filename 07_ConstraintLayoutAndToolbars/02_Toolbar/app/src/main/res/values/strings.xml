@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">7.2 Homework</string>
+    <string name="menu_icon_cake">Cake</string>
+    <string name="menu_color_lens_icon">Color lens</string>
+    <string name="menu_icon_search">Search</string>
+    <string name="menu_icon_smile">Smile</string>
+</resources>

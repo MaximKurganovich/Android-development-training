@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            style="@style/ToolbarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:menu="@menu/menu_main"
+            app:navigationIcon="@drawable/ic_arrow_back"
+            app:title="@string/app_name" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <LinearLayout
+            android:id="@+id/LinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/expandTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center" />
+
+            <TextView
+                android:id="@+id/searchTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center" />
+
+            <TextView
+                android:id="@+id/longTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="dotihroeiuht o9uyh98 y8y 8y 978y4 7tu7h uhty 9urh uhu h438u ih urh  80j poihp9 hiof pu 8ro hiug guhrh 8u hthr ugh hgridfj oijdpoi hog hiousdhg uihpdfu q]=0i 9u3u 8i3h 9h9284yh rih t8i 2h84 h8 h8h48 80 h0 h48h 04 h8ht84 hterh
+dotihroeiuht o9uyh98 y8y 8y 978y4 7tu7h uhty 9urh uhu h438u ih urh  80j poihp9 hiof pu 8ro hiug guhrh 8u hthr ugh hgridfj oijdpoi hog hiousdhg uihpdfu q]=0i 9u3u 8i3h 9h9284yh rih t8i 2h84 h8 h8h48 80 h0 h48h 04 h8ht84 hterh"
+                android:textSize="50sp"
+                app:layout_anchor="@+id/LinearLayout"
+                app:layout_anchorGravity="center" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
