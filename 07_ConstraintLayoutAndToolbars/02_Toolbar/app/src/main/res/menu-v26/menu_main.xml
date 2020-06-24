@@ -5,22 +5,25 @@
         android:id="@+id/action_1_menu"
         android:icon="@drawable/ic_cake"
         android:title="@string/menu_icon_cake"
-        android:iconTint="@android:color/white">
+        app:iconTint="@android:color/black"
+        android:iconTint="@android:color/black">
     </item>
 
     <item
         android:id="@+id/action_2_menu"
         android:icon="@drawable/ic_color_lens"
         android:title="@string/menu_color_lens_icon"
-        android:iconTint="@android:color/white">
+        app:iconTint="@android:color/black"
+        android:iconTint="@android:color/black">
     </item>
 
     <item
         android:id="@+id/menu_search"
         android:icon="@drawable/ic_search"
         android:title="@string/menu_icon_search"
-        android:iconTint="@android:color/white"
-        app:showAsAction="ifRoom|collapseActionView"
+        android:iconTint="@android:color/black"
+        app:showAsAction="always|collapseActionView"
+        app:iconTint="@android:color/black"
         app:actionViewClass="androidx.appcompat.widget.SearchView">
     </item>
 
@@ -28,7 +31,8 @@
         android:id="@+id/menu_smile"
         android:icon="@drawable/ic_tag_faces"
         android:title="@string/menu_icon_smile"
-        android:iconTint="@android:color/white"
+        app:iconTint="@android:color/black"
+        android:iconTint="@android:color/black"
         app:showAsAction="ifRoom">
     </item>
 

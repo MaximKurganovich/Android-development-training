@@ -8,22 +8,24 @@
     </style>
 
 
-    <style name="ToolbarStyle">
+    <style name="ToolbarStyle" >
         <item name="android:theme">@style/ToolbarTheme</item>
         <item name="popupTheme">@style/PopupTheme</item>
+        <item name="colorControlNormal">@android:color/black</item>
     </style>
 
     <style name="PopupTheme" parent="AppTheme">
         <item name="android:itemBackground">@color/popup_menu_bg_color</item>
-        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColor">@android:color/black</item>
     </style>
 
     <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="toolbarNavigationButtonStyle">@style/ToolbarNavigationStyle</item>
+        <item name="colorControlNormal">@android:color/black</item>
     </style>
 
     <style name="ToolbarNavigationStyle" parent="Widget.AppCompat.Toolbar.Button.Navigation">
-        <item name="tint">@android:color/white</item>
+        <item name="tint">@android:color/black</item>
     </style>
 
 </resources>
