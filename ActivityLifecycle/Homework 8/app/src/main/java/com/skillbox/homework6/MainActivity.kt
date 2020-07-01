@@ -148,6 +148,7 @@ class MainActivity : AppCompatActivity() {
             check.isEnabled = true
             button.isEnabled = true
             container.removeView(progressBar)
+            textView.text = "Введите логин и пароль"
             stateError.message = ""
             Toast.makeText(this, R.string.login_toast, Toast.LENGTH_SHORT).show()
         }, 2000)
