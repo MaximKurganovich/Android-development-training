@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">9 Homework</string>
+    <string name="login_password">Введите логин и пароль</string>
+    <string name="login">Логин</string>
+    <string name="password">Пароль</string>
+    <string name="deal">Я согласен</string>
+    <string name="login_button">Вход</string>
+    <string name="login_toast">Логин прошел успешно</string>
+    <string name="anr">ANR</string>
+    <string name="textView_secondActivity">This is the second activity</string>
+    <string name="enterPhoneNumber">Введите номер телефона</string>
+    <string name="to_call">Позвонить</string>
+</resources>
