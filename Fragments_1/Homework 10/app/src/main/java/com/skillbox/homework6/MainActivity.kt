@@ -11,6 +11,16 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         addLoginFragment()
     }
 
+    override fun onBackPressed() {
+        val fragmentMain = supportFragmentManager.findFragmentByTag("TAG_MAIN_FRAGMENT")
+
+        if (fragmentMain != null && fragmentMain.childFragmentManager.backStackEntryCount > 0) {
+            fragmentMain.childFragmentManager.popBackStack()
+        } else {
+            super.onBackPressed()
+        }
+    }
+
 
     private fun addLoginFragment() {
         supportFragmentManager.beginTransaction().add(R.id.mainContainer, LoginFragment()).commit()
