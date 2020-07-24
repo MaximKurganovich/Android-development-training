@@ -122,11 +122,12 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
     private fun successLogin() {
         val trans = fragmentManager?.beginTransaction()
         trans?.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-        trans?.replace(R.id.mainContainer, MainFragment(), "TAG_MAIN_FRAGMENT")
+        trans?.replace(R.id.mainContainer, MainFragment(), TAG_MAIN_FRAGMENT)
         trans?.commit()
     }
 
     companion object {
         private const val KEY_VALIDATION_ERROR = "validation error"
+        private const val TAG_MAIN_FRAGMENT = "TAG_MAIN_FRAGMENT"
     }
 }
