@@ -2,15 +2,20 @@ package com.skillbox.a11homework
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
 import kotlinx.android.synthetic.main.activity_app.*
 
 class AppActivity : AppCompatActivity(R.layout.activity_app) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val adapter = FragmentArticleAdapter(screens, this)
+        var adapter = FragmentArticleAdapter(screens, this)
         viewPager.adapter = adapter
         viewPager.offscreenPageLimit = 1
+
+        val wormDotsIndicator = findViewById<WormDotsIndicator>(R.id.worm_dots_indicator)
+        wormDotsIndicator.setViewPager2(viewPager)
+
     }
 
     private val screens: List<DataForFragmentArticle> = listOf(
@@ -34,7 +39,7 @@ class AppActivity : AppCompatActivity(R.layout.activity_app) {
             textRes = R.string.how_does_the_world_see_an_object_flying_at_the_speed_of_light,
             imageRes = R.drawable.how_does_the_world_see_an_object_flying_at_the_speed_of_light
         ),
-        DataForFragmentArticle (
+        DataForFragmentArticle(
             textRes = R.string.can_people_feel_the_temperature,
             imageRes = R.drawable.can_people_feel_the_temperature
         ),
