@@ -2,8 +2,12 @@ package com.skillbox.a11homework
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.badge.BadgeDrawable
+import com.google.android.material.tabs.TabLayoutMediator
 import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
 import kotlinx.android.synthetic.main.activity_app.*
+import kotlin.random.Random
 
 class AppActivity : AppCompatActivity(R.layout.activity_app) {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -13,9 +17,47 @@ class AppActivity : AppCompatActivity(R.layout.activity_app) {
         viewPager.adapter = adapter
         viewPager.offscreenPageLimit = 1
 
+        addIndicator()
+        addAnimation()
+        addTab()
+
+        button.setOnClickListener { generateBadge() }
+
+        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                tabLayout.getTabAt(position)?.removeBadge()
+            }
+        })
+
+    }
+
+    //Добавляет индикатор для viewPager
+    private fun addIndicator() {
         val wormDotsIndicator = findViewById<WormDotsIndicator>(R.id.worm_dots_indicator)
         wormDotsIndicator.setViewPager2(viewPager)
+    }
 
+    //Добавляет анимацию для viewPager
+    private fun addAnimation() {
+        val depthTransformation = DepthTransformation()
+        viewPager.setPageTransformer(depthTransformation)
+    }
+
+    //Связывает tabLayout и viewPager и добавляет вкладка имена
+    private fun addTab() {
+        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+            tab.text = "Tab ${position + 1}"
+        }.attach()
+    }
+
+    //Создает случайный бейдж
+    private fun generateBadge() {
+        tabLayout.getTabAt(Random.nextInt(0, screens.size))?.orCreateBadge?.apply {
+            if (number == null) number = 1
+            else number++
+            badgeGravity = BadgeDrawable.TOP_END
+        }
     }
 
     private val screens: List<DataForFragmentArticle> = listOf(

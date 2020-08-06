@@ -10,6 +10,9 @@ import kotlinx.android.synthetic.main.fragment_article.*
 
 class FragmentArticle : Fragment(R.layout.fragment_article) {
 
+    private val tags: List<ArticleTag> = listOf(ArticleTag.interestingFacts,
+    ArticleTag.mythsAndReality, ArticleTag.usefulFacts)
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         Log.d("viewPager", "FragmentArticle oncreate, ${hashCode()}")
         super.onActivityCreated(savedInstanceState)
