@@ -5,7 +5,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
 class FragmentArticleAdapter(
-    private val screens: List<DataForFragmentArticle>,
+    private var screens: List<DataForFragmentArticle>,
     activity: FragmentActivity
 ) : FragmentStateAdapter(activity) {
 

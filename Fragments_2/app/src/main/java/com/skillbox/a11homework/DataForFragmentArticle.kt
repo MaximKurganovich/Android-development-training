@@ -5,5 +5,6 @@ import androidx.annotation.StringRes
 
 data class DataForFragmentArticle(
     @StringRes val textRes: Int,
-    @DrawableRes val imageRes: Int
+    @DrawableRes val imageRes: Int,
+    val tag: String
 )
