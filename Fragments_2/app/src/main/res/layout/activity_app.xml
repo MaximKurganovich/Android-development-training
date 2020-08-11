@@ -25,7 +25,8 @@
         app:layout_constraintBottom_toTopOf="@+id/worm_dots_indicator"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tabLayout">
+        app:layout_constraintTop_toBottomOf="@+id/tabLayout"
+        android:tag="viewPager2">
 
     </androidx.viewpager2.widget.ViewPager2>
 
