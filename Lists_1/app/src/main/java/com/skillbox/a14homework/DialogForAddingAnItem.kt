@@ -3,7 +3,6 @@ package com.skillbox.a14homework
 import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.DialogFragment
 import kotlinx.android.synthetic.main.layout_for_dialogue_planet.*
 import kotlinx.android.synthetic.main.layout_for_dialogue_planet.editLinkToAvatar
@@ -13,16 +12,20 @@ interface AddNewElement {
     fun addNewElement(item: CelestialBodies)
 }
 
-class DialogForAddingAnItem : DialogFragment() {
+open class DialogForAddingAnItem : DialogFragment() {
+
+    //Создаем диалог, в котором пользователю будет дан выбран какой элемент он хочет добавить
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return AlertDialog.Builder(requireContext()).setTitle("Добавляем:")
             .setItems(R.array.listOfCelestialBodies) { dialog, which -> addDialog(which) }.create()
     }
 
+    //В зависимости от выбора пользователя в первом диалоге создается второй диалог с кастомной разметкой,
+    // в который вносятся параметры нового элемента
     private fun addDialog(which: Int) {
         when (which) {
-            0 -> DialogForAddingAStar().show(childFragmentManager, TYPE_STAR)
-            1 -> DialogForAddingAPlanet().show(childFragmentManager, TYPE_PLANET)
+            0 -> fragmentManager?.let { DialogForAddingAStar().show(it, TYPE_STAR) }
+            1 -> fragmentManager?.let { DialogForAddingAPlanet().show(it, TYPE_PLANET) }
         }
     }
 
@@ -32,7 +35,8 @@ class DialogForAddingAnItem : DialogFragment() {
     }
 }
 
-class DialogForAddingAStar : DialogFragment() {
+// Ниже представлены два класса, которые нужны, чтобы вторые диалоги сохраняли свое состояние при повороте экрана
+class DialogForAddingAStar : DialogForAddingAnItem() {
 
     private var mListener: AddNewElement? = null
 
@@ -48,6 +52,7 @@ class DialogForAddingAStar : DialogFragment() {
             }.create()
     }
 
+    //Метод создает новый элемент "Звезда"
     private fun addNewStar(): CelestialBodies.Star {
 //        val inflater = activity!!.layoutInflater
 //
@@ -79,6 +84,7 @@ class DialogForAddingAPlanet : DialogFragment() {
             }.create()
     }
 
+    //Метод создает элемент "Планета"
     private fun addNewPlanet(): CelestialBodies.Planet {
         val inflater = activity!!.layoutInflater
 

@@ -1,9 +1,7 @@
 package com.skillbox.a14homework
 
-import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import kotlinx.android.synthetic.main.list_of_celestial_bodies_fragment.*
 
 class ListOfCelestialBodiesFragment : Fragment(R.layout.list_of_celestial_bodies_fragment),
@@ -75,7 +73,7 @@ class ListOfCelestialBodiesFragment : Fragment(R.layout.list_of_celestial_bodies
         DialogForAddingAnItem().show(childFragmentManager, "DialogForAddingAnItem")
     }
 
-
+//НЕ ЗАБЫТЬ ОБНОВИТЬ АДАПТЕР В МЕТОДЕ, КОГДА ОН БУДЕТ СОЗДАН!!!
     override fun addNewElement(item: CelestialBodies) {
         celestialBodies = listOf(item) + celestialBodies
     }
