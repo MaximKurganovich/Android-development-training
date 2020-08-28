@@ -1,7 +1,9 @@
 package com.skillbox.a14homework
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.list_of_celestial_bodies_fragment.*
 
 class ListOfCelestialBodiesFragment : Fragment(R.layout.list_of_celestial_bodies_fragment),
@@ -63,18 +65,38 @@ class ListOfCelestialBodiesFragment : Fragment(R.layout.list_of_celestial_bodies
         )
     )
 
+    private var celestialBodiesAdapter: ListAdapter? = null
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        addFab.setOnClickListener{(addCelestialBodies())}
-
+        Log.d("onActivityCreated", "onActivityCreated ${hashCode()}")
+        initList()
+        addFab.setOnClickListener { (addCelestialBodies()) }
+        celestialBodiesAdapter?.updateList(celestialBodies)
+        celestialBodiesAdapter?.notifyDataSetChanged()
     }
 
     private fun addCelestialBodies() {
         DialogForAddingAnItem().show(childFragmentManager, "DialogForAddingAnItem")
     }
 
-//НЕ ЗАБЫТЬ ОБНОВИТЬ АДАПТЕР В МЕТОДЕ, КОГДА ОН БУДЕТ СОЗДАН!!!
+    private fun initList() {
+        with(recycleViewCelestialBodies) {
+            adapter = celestialBodiesAdapter
+            layoutManager = LinearLayoutManager(requireContext())
+            setHasFixedSize(true)
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        celestialBodiesAdapter = null
+    }
+
     override fun addNewElement(item: CelestialBodies) {
         celestialBodies = listOf(item) + celestialBodies
+        celestialBodiesAdapter?.updateList(celestialBodies)
+        celestialBodiesAdapter?.notifyItemInserted(0)
+        recycleViewCelestialBodies.scrollToPosition(0)
     }
 }
