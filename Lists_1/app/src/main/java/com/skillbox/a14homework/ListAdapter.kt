@@ -1,9 +1,11 @@
 package com.skillbox.a14homework
 
+import android.annotation.SuppressLint
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
@@ -30,7 +32,9 @@ class ListAdapter(
         }
     }
 
-    override fun getItemCount(): Int = celestialBodies.size
+    override fun getItemCount(): Int {
+        return celestialBodies.size
+    }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
@@ -47,6 +51,7 @@ class ListAdapter(
 
     fun updateList(newList: List<CelestialBodies>) {
         celestialBodies = newList
+        println("celestialBodies = $celestialBodies")
     }
 
     abstract class BaseHolder(view: View, onItemClick: (position: Int) -> Unit) :
@@ -71,13 +76,14 @@ class ListAdapter(
 
     class StarHolder(view: View, onItemClick: (position: Int) -> Unit) :
         BaseHolder(view, onItemClick) {
+
         private val surfaceTemperatureTextView: TextView =
             view.findViewById(R.id.textViewSurfaceTemperature)
 
         fun bind(star: CelestialBodies.Star) {
             bindInfo(star.name, star.avatarLink)
             surfaceTemperatureTextView.text =
-                "${R.string.surfaceTemperature} = ${star.surfaceTemperature}"
+                "${itemView.resources.getString(R.string.surfaceTemperature)} = ${star.surfaceTemperature}"
         }
     }
 
@@ -90,14 +96,16 @@ class ListAdapter(
             planet: CelestialBodies.Planet
         ) {
             bindInfo(planet.name, planet.avatarLink)
-            diameterTextView.text = "${R.string.planetDiameter} = ${planet.diameter}"
-            dayLengthTextView.text = "${R.string.dayLength} = ${planet.dayLength}"
+            diameterTextView.text = "${itemView.resources.getString(R.string.planetDiameter)} = ${planet.diameter} ${itemView.resources.getString(R.string.km)}"
+            dayLengthTextView.text = "${itemView.resources.getString(R.string.dayLength)} = ${planet.dayLength} ${itemView.resources.getString(R.string.days)}"
         }
     }
+
 
     companion object {
         private const val TYPE_PLANET = 1
         private const val TYPE_STAR = 2
+        private const val TYPE_EMPTY = 10
     }
 
 }

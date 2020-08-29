@@ -5,4 +5,7 @@
     <string name="planetDiameter">Диаметр планеты</string>
     <string name="dayLength">Длина суток</string>
     <string name="surfaceTemperature">Температура поверхности</string>
+    <string name="days">дня</string>
+    <string name="km">км</string>
+    <string name="emptyList">Список пуст</string>
 </resources>

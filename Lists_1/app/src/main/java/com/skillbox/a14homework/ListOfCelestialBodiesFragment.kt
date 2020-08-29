@@ -2,9 +2,11 @@ package com.skillbox.a14homework
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.list_of_celestial_bodies_fragment.*
+
 
 class ListOfCelestialBodiesFragment : Fragment(R.layout.list_of_celestial_bodies_fragment),
     AddNewElement {
@@ -55,7 +57,7 @@ class ListOfCelestialBodiesFragment : Fragment(R.layout.list_of_celestial_bodies
         CelestialBodies.Planet(
             name = "Нептун",
             diameter = 49500,
-            avatarLink = "https://upload.wikimedia.org/wikipedia/commons/b/bb/Uranus.jpg",
+            avatarLink = "https://vunderkind.info/wp-content/uploads/2012/09/neptun.jpg",
             dayLength = 0.74
         ),
         CelestialBodies.Star(
@@ -65,13 +67,14 @@ class ListOfCelestialBodiesFragment : Fragment(R.layout.list_of_celestial_bodies
         )
     )
 
+
     private var celestialBodiesAdapter: ListAdapter? = null
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         Log.d("onActivityCreated", "onActivityCreated ${hashCode()}")
         initList()
-        addFab.setOnClickListener { (addCelestialBodies()) }
+        addFab.setOnClickListener { addCelestialBodies() }
         celestialBodiesAdapter?.updateList(celestialBodies)
         celestialBodiesAdapter?.notifyDataSetChanged()
     }
@@ -81,11 +84,21 @@ class ListOfCelestialBodiesFragment : Fragment(R.layout.list_of_celestial_bodies
     }
 
     private fun initList() {
+        celestialBodiesAdapter =
+            ListAdapter { position -> deleteCelestialBodies(position = position) }
         with(recycleViewCelestialBodies) {
             adapter = celestialBodiesAdapter
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(true)
         }
+    }
+
+    private fun deleteCelestialBodies(position: Int) {
+        celestialBodies =
+            celestialBodies.filterIndexed { index, _ -> index != position }
+        emptyList()
+        celestialBodiesAdapter?.updateList(celestialBodies)
+        celestialBodiesAdapter?.notifyItemRemoved(position)
     }
 
     override fun onDestroy() {
@@ -95,8 +108,19 @@ class ListOfCelestialBodiesFragment : Fragment(R.layout.list_of_celestial_bodies
 
     override fun addNewElement(item: CelestialBodies) {
         celestialBodies = listOf(item) + celestialBodies
+        emptyList()
         celestialBodiesAdapter?.updateList(celestialBodies)
         celestialBodiesAdapter?.notifyItemInserted(0)
         recycleViewCelestialBodies.scrollToPosition(0)
+    }
+
+    private fun emptyList() {
+        if (celestialBodies.isEmpty()) {
+            recycleViewCelestialBodies.visibility = View.GONE
+            textViewEmptyList.visibility = View.VISIBLE
+        } else {
+            recycleViewCelestialBodies.visibility = View.VISIBLE
+            textViewEmptyList.visibility = View.GONE
+        }
     }
 }
