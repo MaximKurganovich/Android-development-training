@@ -3,10 +3,12 @@ package com.skillbox.a14homework
 import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.DialogFragment
 import kotlinx.android.synthetic.main.layout_for_dialogue_planet.*
-import kotlinx.android.synthetic.main.layout_for_dialogue_planet.editLinkToAvatar
-import kotlinx.android.synthetic.main.layout_for_dialogue_star.*
+import kotlinx.android.synthetic.main.layout_for_dialogue_planet.view.*
+import kotlinx.android.synthetic.main.layout_for_dialogue_star.view.*
+import kotlinx.android.synthetic.main.layout_for_dialogue_star.view.editLinkToAvatar
 
 interface AddNewElement {
     fun addNewElement(item: CelestialBodies)
@@ -38,29 +40,30 @@ open class DialogForAddingAnItem : DialogFragment() {
 // Ниже представлены два класса, которые нужны, чтобы вторые диалоги сохраняли свое состояние при повороте экрана
 class DialogForAddingAStar : DialogForAddingAnItem() {
 
-    private var mListener: AddNewElement? = null
+    private val mListener: AddNewElement?
+        get() = parentFragment as? AddNewElement ?: activity as? AddNewElement
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 //        Log.d("DialogForAddingAStar", "DialogForAddingAStar ${hashCode()}")
-        return AlertDialog.Builder(requireContext()).setView(R.layout.layout_for_dialogue_star)
+        val inflater = activity!!.layoutInflater
+        val view = inflater.inflate(R.layout.layout_for_dialogue_star, null)
+
+        return AlertDialog.Builder(requireContext()).setView(view)
             .setPositiveButton(
                 "Добавить"
             ) { _, _ ->
-                mListener?.addNewElement(addNewStar())
+                mListener?.addNewElement(addNewStar(view))
             }.setNegativeButton("Отмена") { dialog, _ ->
                 dialog.cancel()
             }.create()
     }
 
     //Метод создает новый элемент "Звезда"
-    private fun addNewStar(): CelestialBodies.Star {
-//        val inflater = activity!!.layoutInflater
-//
-//        val view = inflater.inflate(R.layout.layout_for_dialogue_star, null)
-        val nameStar = editNameStar.toString()
-        val linkToAvatar = editLinkToAvatar.toString()
+    private fun addNewStar(view: View): CelestialBodies.Star {
+        val nameStar = view.editNameStar.text.toString()
+        val linkToAvatar = view.editLinkToAvatar.text.toString()
         val surfaceTemperature =
-            editSurfacTemperature.toString().toInt()
+            view.editSurfacTemperature.text.toString().toInt()
 
         return CelestialBodies.Star(
             name = nameStar,
@@ -71,29 +74,32 @@ class DialogForAddingAStar : DialogForAddingAnItem() {
 }
 
 class DialogForAddingAPlanet : DialogFragment() {
-    private var mListener: AddNewElement? = null
+
+    private val mListener: AddNewElement?
+        get() = parentFragment as? AddNewElement ?: activity as? AddNewElement
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return AlertDialog.Builder(requireContext()).setView(R.layout.layout_for_dialogue_planet)
+        val inflater = activity!!.layoutInflater
+        val view = inflater.inflate(R.layout.layout_for_dialogue_planet, null)
+
+        return AlertDialog.Builder(requireContext()).setView(view)
             .setPositiveButton(
                 "Добавить"
             ) { _, _ ->
-                mListener?.addNewElement(addNewPlanet())
+                mListener?.addNewElement(addNewPlanet(view))
             }.setNegativeButton("Отмена") { dialog, _ ->
                 dialog.cancel()
             }.create()
     }
 
     //Метод создает элемент "Планета"
-    private fun addNewPlanet(): CelestialBodies.Planet {
-        val inflater = activity!!.layoutInflater
+    private fun addNewPlanet(view: View): CelestialBodies.Planet {
 
-        val view = inflater.inflate(R.layout.layout_for_dialogue_planet, null)
-        val nameStar = editNamePlanet.toString()
-        val linkToAvatar = editLinkToAvatar.toString()
+        val nameStar = view.editNamePlanet.text.toString()
+        val linkToAvatar = view.editLinkToAvatar.text.toString()
         val planetDiameter =
-            editPlanetDiameter.toString().toInt()
-        val dayLength = editDayLength.toString().toDouble()
+            view.editPlanetDiameter.text.toString().toInt()
+        val dayLength = view.editDayLength.text.toString().toDouble()
 
         return CelestialBodies.Planet(
             name = nameStar,

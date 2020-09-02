@@ -106,14 +106,6 @@ class ListOfCelestialBodiesFragment : Fragment(R.layout.list_of_celestial_bodies
         celestialBodiesAdapter = null
     }
 
-    override fun addNewElement(item: CelestialBodies) {
-        celestialBodies = listOf(item) + celestialBodies
-        emptyList()
-        celestialBodiesAdapter?.updateList(celestialBodies)
-        celestialBodiesAdapter?.notifyItemInserted(0)
-        recycleViewCelestialBodies.scrollToPosition(0)
-    }
-
     private fun emptyList() {
         if (celestialBodies.isEmpty()) {
             recycleViewCelestialBodies.visibility = View.GONE
@@ -122,5 +114,14 @@ class ListOfCelestialBodiesFragment : Fragment(R.layout.list_of_celestial_bodies
             recycleViewCelestialBodies.visibility = View.VISIBLE
             textViewEmptyList.visibility = View.GONE
         }
+    }
+
+    override fun addNewElement(item: CelestialBodies) {
+        celestialBodies = listOf(item) + celestialBodies
+        println(celestialBodies)
+        emptyList()
+        celestialBodiesAdapter?.updateList(celestialBodies)
+        celestialBodiesAdapter?.notifyItemInserted(0)
+        recycleViewCelestialBodies.scrollToPosition(0)
     }
 }
