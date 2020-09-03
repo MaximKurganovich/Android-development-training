@@ -2,7 +2,9 @@ package com.skillbox.a14homework
 
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.list_of_celestial_bodies_fragment.*
@@ -67,8 +69,17 @@ class ListOfCelestialBodiesFragment : Fragment(R.layout.list_of_celestial_bodies
         )
     )
 
-
     private var celestialBodiesAdapter: ListAdapter? = null
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        //ЭТОТ АТРИБУТ ПОМОГ СОХРАНИТЬ СПИСОК ПРИ ПОВОРОТЕ ЭКРАНА
+        retainInstance = true
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
