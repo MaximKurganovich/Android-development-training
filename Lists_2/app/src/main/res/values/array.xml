@@ -1,0 +1,6 @@
+<resources>
+    <string-array name="listOfCelestialBodies">
+        <item>Звезда</item>
+        <item>Планета</item>
+    </string-array>
+</resources>
