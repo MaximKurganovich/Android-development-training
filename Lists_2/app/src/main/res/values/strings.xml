@@ -8,4 +8,7 @@
     <string name="days">дня</string>
     <string name="km">км</string>
     <string name="emptyList">Список пуст</string>
+    <string name="linearlayoutmanager">Linear Layout Manager</string>
+    <string name="gridlayoutmanager">Grid Layout Manager</string>
+    <string name="staggeredgridlayoutmanager">Staggered Grid Layout Manager</string>
 </resources>

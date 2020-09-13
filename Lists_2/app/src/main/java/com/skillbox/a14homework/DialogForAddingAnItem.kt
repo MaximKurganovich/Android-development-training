@@ -5,6 +5,9 @@ import android.app.Dialog
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.DialogFragment
+import androidx.recyclerview.widget.AsyncListDiffer
+import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
+import com.skillbox.a14homework.adapters.ListAdapter
 import kotlinx.android.synthetic.main.layout_for_dialogue_planet.*
 import kotlinx.android.synthetic.main.layout_for_dialogue_planet.view.*
 import kotlinx.android.synthetic.main.layout_for_dialogue_star.view.*
@@ -68,7 +71,8 @@ class DialogForAddingAStar : DialogForAddingAnItem() {
         return CelestialBodies.Star(
             name = nameStar,
             surfaceTemperature = surfaceTemperature,
-            avatarLink = linkToAvatar
+            avatarLink = linkToAvatar,
+            id = ListOfCelestialBodiesFragment().celestialBodies.size + 1
         )
     }
 }
@@ -105,7 +109,8 @@ class DialogForAddingAPlanet : DialogFragment() {
             name = nameStar,
             avatarLink = linkToAvatar,
             diameter = planetDiameter,
-            dayLength = dayLength
+            dayLength = dayLength,
+            id = ListOfCelestialBodiesFragment().celestialBodies.size + 1
         )
     }
 }

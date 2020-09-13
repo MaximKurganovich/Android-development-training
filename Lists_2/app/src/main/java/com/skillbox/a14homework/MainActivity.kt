@@ -9,7 +9,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.mainContainer, ListOfCelestialBodiesFragment()).commit()
+                .replace(R.id.mainContainer, ListOfCelestialBodiesFragment()).addToBackStack("MainFragment").commit()
         }
     }
 }
