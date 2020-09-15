@@ -1,14 +1,11 @@
-package com.skillbox.a14homework
+package com.skillbox.a14homework.linear_layout_manager
 
 import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.DialogFragment
-import androidx.recyclerview.widget.AsyncListDiffer
-import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
-import com.skillbox.a14homework.adapters.ListAdapter
-import kotlinx.android.synthetic.main.layout_for_dialogue_planet.*
+import com.skillbox.a14homework.R
 import kotlinx.android.synthetic.main.layout_for_dialogue_planet.view.*
 import kotlinx.android.synthetic.main.layout_for_dialogue_star.view.*
 import kotlinx.android.synthetic.main.layout_for_dialogue_star.view.editLinkToAvatar

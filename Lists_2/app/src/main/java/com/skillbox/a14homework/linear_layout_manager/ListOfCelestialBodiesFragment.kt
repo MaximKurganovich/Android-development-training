@@ -1,4 +1,4 @@
-package com.skillbox.a14homework
+package com.skillbox.a14homework.linear_layout_manager
 
 import android.os.Bundle
 import android.util.Log
@@ -6,9 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.skillbox.a14homework.R
+import com.skillbox.a14homework.SharedViewModel
 import com.skillbox.a14homework.adapters.ListAdapter
 import kotlinx.android.synthetic.main.list_of_celestial_bodies_fragment.*
+import java.util.*
 
 
 class ListOfCelestialBodiesFragment :
@@ -82,6 +88,12 @@ class ListOfCelestialBodiesFragment :
 
     private var celestialBodiesAdapter: ListAdapter? = null
 
+//    VIewModel
+    private val model: SharedViewModel = ViewModelProviders.of(Objects.requireNonNull(this.activity)!!).get(
+        SharedViewModel::class.java
+    )
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -109,14 +121,14 @@ class ListOfCelestialBodiesFragment :
             ListAdapter { position -> deleteCelestialBodies(position = position) }
         with(recycleViewCelestialBodies) {
             adapter = celestialBodiesAdapter
-            layoutManager = LinearLayoutManager(requireContext())
-//            layoutManager = when (type) {
-//                1 -> LinearLayoutManager(requireContext())
-//                2 -> GridLayoutManager(requireContext(), 3)
-//                3 -> StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
-//                else -> error("Нет подходящего LayoutManager")
-//            }
-//                LinearLayoutManager(requireContext())
+//            layoutManager = LinearLayoutManager(requireContext())
+            layoutManager = when (model.getSelected().value) {
+                1 -> LinearLayoutManager(requireContext())
+                2 -> GridLayoutManager(requireContext(), 3)
+                3 -> StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
+                else -> error("Нет подходящего LayoutManager")
+            }
+                LinearLayoutManager(requireContext())
             setHasFixedSize(true)
         }
     }

@@ -22,7 +22,6 @@ abstract class BaseHolder(view: View, onItemClick: (position: Int) -> Unit) :
         avatarLink: String
     ) {
         nameTextView.text = name
-
         Glide.with(itemView).load(avatarLink).placeholder(R.drawable.empty_avatar).into(avatar)
     }
 }

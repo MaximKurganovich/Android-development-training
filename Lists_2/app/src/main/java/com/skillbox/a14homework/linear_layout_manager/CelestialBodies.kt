@@ -1,4 +1,4 @@
-package com.skillbox.a14homework
+package com.skillbox.a14homework.linear_layout_manager
 
 sealed class CelestialBodies {
 

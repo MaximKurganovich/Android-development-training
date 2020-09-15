@@ -3,11 +3,12 @@ package com.skillbox.a14homework.adapters
 import android.annotation.SuppressLint
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import com.hannesdorfmann.adapterdelegates4.AbsListItemAdapterDelegate
-import com.skillbox.a14homework.CelestialBodies
+import com.skillbox.a14homework.linear_layout_manager.CelestialBodies
 import com.skillbox.a14homework.R
 import com.skillbox.a14homework.inflate
+import kotlinx.android.extensions.LayoutContainer
+import kotlinx.android.synthetic.main.for_list_planet.*
 
 class PlanetAdapterDelegate(private val onItemClick: (position: Int) -> Unit) :
     AbsListItemAdapterDelegate<CelestialBodies.Planet, CelestialBodies, PlanetAdapterDelegate.PlanetHolder>() {
@@ -32,21 +33,26 @@ class PlanetAdapterDelegate(private val onItemClick: (position: Int) -> Unit) :
         holder.bind(item)
     }
 
-    class PlanetHolder(view: View, onItemClick: (position: Int) -> Unit) : BaseHolder(view, onItemClick) {
-        private val diameterTextView: TextView = view.findViewById(R.id.textViewDiameter)
-        private val dayLengthTextView: TextView = view.findViewById(R.id.textViewDayLength)
+    class PlanetHolder(override val containerView: View, onItemClick: (position: Int) -> Unit) :
+        BaseHolder(containerView, onItemClick), LayoutContainer {
 
         @SuppressLint("SetTextI18n")
         fun bind(
             planet: CelestialBodies.Planet
         ) {
             bindInfo(planet.name, planet.avatarLink)
-            diameterTextView.text = "${itemView.resources.getString(R.string.planetDiameter)} = ${planet.diameter} ${itemView.resources.getString(
-                R.string.km
-            )}"
-            dayLengthTextView.text = "${itemView.resources.getString(R.string.dayLength)} = ${planet.dayLength} ${itemView.resources.getString(
-                R.string.days
-            )}"
+            textViewDiameter.text =
+                "${itemView.resources.getString(R.string.planetDiameter)} = ${planet.diameter} ${
+                    itemView.resources.getString(
+                        R.string.km
+                    )
+                }"
+            textViewDayLength.text =
+                "${itemView.resources.getString(R.string.dayLength)} = ${planet.dayLength} ${
+                    itemView.resources.getString(
+                        R.string.days
+                    )
+                }"
         }
     }
 

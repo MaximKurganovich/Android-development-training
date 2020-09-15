@@ -1,12 +1,14 @@
 package com.skillbox.a14homework.adapters
 
+import android.annotation.SuppressLint
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import com.hannesdorfmann.adapterdelegates4.AbsListItemAdapterDelegate
-import com.skillbox.a14homework.CelestialBodies
+import com.skillbox.a14homework.linear_layout_manager.CelestialBodies
 import com.skillbox.a14homework.R
 import com.skillbox.a14homework.inflate
+import kotlinx.android.extensions.LayoutContainer
+import kotlinx.android.synthetic.main.for_list_star.*
 
 class StarAdapterDelegate(private val onItemClick: (position: Int) -> Unit) :
     AbsListItemAdapterDelegate<CelestialBodies.Star, CelestialBodies, StarAdapterDelegate.StarHolder>() {
@@ -31,15 +33,13 @@ class StarAdapterDelegate(private val onItemClick: (position: Int) -> Unit) :
         holder.bind(item)
     }
 
-    class StarHolder(view: View, onItemClick: (position: Int) -> Unit) :
-        BaseHolder(view, onItemClick) {
+    class StarHolder(override val containerView: View, onItemClick: (position: Int) -> Unit) :
+        BaseHolder(containerView, onItemClick), LayoutContainer {
 
-        private val surfaceTemperatureTextView: TextView =
-            view.findViewById(R.id.textViewSurfaceTemperature)
-
+        @SuppressLint("SetTextI18n")
         fun bind(star: CelestialBodies.Star) {
             bindInfo(star.name, star.avatarLink)
-            surfaceTemperatureTextView.text =
+            textViewSurfaceTemperature.text =
                 "${itemView.resources.getString(R.string.surfaceTemperature)} = ${star.surfaceTemperature}"
         }
     }
