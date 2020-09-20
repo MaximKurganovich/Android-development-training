@@ -1,27 +1,23 @@
 package com.skillbox.a14homework.linear_layout_manager
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.skillbox.a14homework.CelestialBodies
 import com.skillbox.a14homework.R
-import com.skillbox.a14homework.SharedViewModel
 import com.skillbox.a14homework.adapters.ListAdapter
 import kotlinx.android.synthetic.main.list_of_celestial_bodies_fragment.*
-import java.util.*
 
 
-class ListOfCelestialBodiesFragment :
+class LinearLayoutManagerFragment :
     Fragment(R.layout.list_of_celestial_bodies_fragment),
     AddNewElement {
 
-    var celestialBodies = listOf(
+    // Изначальный список для отображения
+    var celestialBodies: List<CelestialBodies> = listOf(
         CelestialBodies.Planet(
             name = "Меркурий",
             diameter = 4870,
@@ -86,12 +82,8 @@ class ListOfCelestialBodiesFragment :
         )
     )
 
+    //    Создается адаптер
     private var celestialBodiesAdapter: ListAdapter? = null
-
-//    VIewModel
-    private val model: SharedViewModel = ViewModelProviders.of(Objects.requireNonNull(this.activity)!!).get(
-        SharedViewModel::class.java
-    )
 
 
     override fun onCreateView(
@@ -106,33 +98,31 @@ class ListOfCelestialBodiesFragment :
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        Log.d("onActivityCreated", "onActivityCreated ${hashCode()}")
         initList()
         addFab.setOnClickListener { addCelestialBodies() }
+//        Адаптеру посл инициализации присваивается список элементов для отображения
         celestialBodiesAdapter?.items = celestialBodies
     }
 
+
+    //    Метод вызывает диалог для добавления элемента
     private fun addCelestialBodies() {
         DialogForAddingAnItem().show(childFragmentManager, "DialogForAddingAnItem")
     }
 
+    //    Адаптеру присваиваются атрибуты и указывается тип LayoutManager
     private fun initList() {
         celestialBodiesAdapter =
             ListAdapter { position -> deleteCelestialBodies(position = position) }
         with(recycleViewCelestialBodies) {
             adapter = celestialBodiesAdapter
-//            layoutManager = LinearLayoutManager(requireContext())
-            layoutManager = when (model.getSelected().value) {
-                1 -> LinearLayoutManager(requireContext())
-                2 -> GridLayoutManager(requireContext(), 3)
-                3 -> StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
-                else -> error("Нет подходящего LayoutManager")
-            }
-                LinearLayoutManager(requireContext())
+            layoutManager = LinearLayoutManager(requireContext())
+            LinearLayoutManager(requireContext())
             setHasFixedSize(true)
         }
     }
 
+    //    Удаляет элемент при нажатии на него
     private fun deleteCelestialBodies(position: Int) {
         celestialBodies =
             celestialBodies.filterIndexed { index, _ -> index != position }
@@ -145,6 +135,7 @@ class ListOfCelestialBodiesFragment :
         celestialBodiesAdapter = null
     }
 
+    //    Если список пуст, то recyclerView скрывается и появляется textView с надписью "Список пуст"
     private fun emptyList() {
         if (celestialBodies.isEmpty()) {
             recycleViewCelestialBodies.visibility = View.GONE
@@ -155,6 +146,7 @@ class ListOfCelestialBodiesFragment :
         }
     }
 
+    //Принимает из диалога данные для добавления нового элемента с помощью интерфейса AddNewElement
     override fun addNewElement(item: CelestialBodies) {
         celestialBodies = listOf(item) + celestialBodies
         emptyList()
