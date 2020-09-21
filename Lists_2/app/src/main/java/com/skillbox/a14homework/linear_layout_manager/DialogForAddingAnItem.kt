@@ -12,25 +12,28 @@ import kotlinx.android.synthetic.main.layout_for_dialogue_star.view.*
 import kotlinx.android.synthetic.main.layout_for_dialogue_star.view.editLinkToAvatar
 
 interface AddNewElement {
+
     fun addNewElement(item: CelestialBodies)
 }
 
 open class DialogForAddingAnItem : DialogFragment() {
 
-    //Создаем диалог, в котором пользователю будет дан выбран какой элемент он хочет добавить
+    //Создаем диалог, в котором пользователю будет дан выбор какой элемент он хочет добавить
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return AlertDialog.Builder(requireContext()).setTitle("Добавляем:")
             .setItems(R.array.listOfCelestialBodies) { dialog, which -> addDialog(which) }.create()
     }
 
     //В зависимости от выбора пользователя в первом диалоге создается второй диалог с кастомной разметкой,
-    // в который вносятся параметры нового элемента
+    // в который вносятся параметры нового элемента. Метод isAdded по сути не требуется, но он добавлен как напоминание, что
+    // он используется теперь вместо fragmentManager()
     private fun addDialog(which: Int) {
         when (which) {
-            0 -> fragmentManager?.let { DialogForAddingAStar().show(it, TYPE_STAR) }
-            1 -> fragmentManager?.let { DialogForAddingAPlanet().show(it, TYPE_PLANET) }
+            0 -> if (isAdded) DialogForAddingAStar().show(parentFragmentManager, TYPE_STAR)
+            1 -> if (isAdded) DialogForAddingAPlanet().show(parentFragmentManager, TYPE_PLANET)
         }
     }
+//    fragmentManager?.let { DialogForAddingAStar().show(it, TYPE_STAR) }
 
     companion object {
         private const val TYPE_PLANET = "AddPlanetDialog"
@@ -46,7 +49,7 @@ class DialogForAddingAStar : DialogForAddingAnItem() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 //        Log.d("DialogForAddingAStar", "DialogForAddingAStar ${hashCode()}")
-        val inflater = activity!!.layoutInflater
+        val inflater = requireActivity().layoutInflater
         val view = inflater.inflate(R.layout.layout_for_dialogue_star, null)
 
         return AlertDialog.Builder(requireContext()).setView(view)
@@ -81,7 +84,7 @@ class DialogForAddingAPlanet : DialogFragment() {
         get() = parentFragment as? AddNewElement ?: activity as? AddNewElement
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val inflater = activity!!.layoutInflater
+        val inflater = requireActivity().layoutInflater
         val view = inflater.inflate(R.layout.layout_for_dialogue_planet, null)
 
         return AlertDialog.Builder(requireContext()).setView(view)

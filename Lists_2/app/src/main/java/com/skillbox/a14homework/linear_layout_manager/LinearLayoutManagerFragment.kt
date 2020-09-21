@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.skillbox.a14homework.CelestialBodies
+import com.skillbox.a14homework.EndlessRecyclerViewScrollListener
 import com.skillbox.a14homework.R
 import com.skillbox.a14homework.adapters.ListAdapter
 import kotlinx.android.synthetic.main.list_of_celestial_bodies_fragment.*
@@ -84,6 +86,7 @@ class LinearLayoutManagerFragment :
 
     //    Создается адаптер
     private var celestialBodiesAdapter: ListAdapter? = null
+    private lateinit var scrollListener: EndlessRecyclerViewScrollListener
 
 
     override fun onCreateView(
@@ -100,8 +103,9 @@ class LinearLayoutManagerFragment :
         super.onActivityCreated(savedInstanceState)
         initList()
         addFab.setOnClickListener { addCelestialBodies() }
-//        Адаптеру посл инициализации присваивается список элементов для отображения
+//        Адаптеру после инициализации присваивается список элементов для отображения
         celestialBodiesAdapter?.items = celestialBodies
+        scrollListenerFun()
     }
 
 
@@ -117,9 +121,26 @@ class LinearLayoutManagerFragment :
         with(recycleViewCelestialBodies) {
             adapter = celestialBodiesAdapter
             layoutManager = LinearLayoutManager(requireContext())
-            LinearLayoutManager(requireContext())
             setHasFixedSize(true)
         }
+    }
+
+    //    Функция ничего полезного не делает. Должна была запускать бесконечную прокрутку списка
+    private fun scrollListenerFun() {
+        scrollListener =
+            object : EndlessRecyclerViewScrollListener(LinearLayoutManager(requireContext())) {
+                override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
+                    val list = celestialBodies
+                    val curSize = celestialBodiesAdapter!!.items.size
+                    celestialBodies = celestialBodies + list
+
+                    celestialBodiesAdapter!!.notifyItemRangeInserted(
+                        curSize,
+                        celestialBodies.size - 1
+                    )
+
+                }
+            }
     }
 
     //    Удаляет элемент при нажатии на него
