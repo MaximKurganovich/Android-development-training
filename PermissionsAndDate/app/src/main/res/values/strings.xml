@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">16 Homework</string>
+    <string name="permissionsText">Для отображения списка \n локаций требуется разрешение</string>
+    <string name="allowText">Разрешить</string>
+    <string name="noDisplayLocations">Нет локаций для отображений</string>
+    <string name="getLocation">Получить локацию</string>
+</resources>
