@@ -4,4 +4,5 @@
     <string name="allowText">Разрешить</string>
     <string name="noDisplayLocations">Нет локаций для отображений</string>
     <string name="getLocation">Получить локацию</string>
+    <string name="warningAboutTheImpossibilityOfObtainingALocation">Получить доступ к местоположению без разрешения нельзя</string>
 </resources>
