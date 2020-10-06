@@ -5,4 +5,7 @@
     <string name="noDisplayLocations">Нет локаций для отображений</string>
     <string name="getLocation">Получить локацию</string>
     <string name="warningAboutTheImpossibilityOfObtainingALocation">Получить доступ к местоположению без разрешения нельзя</string>
+    <string name="locationError">Произошла ошибка при получении местоположения</string>
+    <string name="longitude">Долгота</string>
+    <string name="latitude">Ширина</string>
 </resources>
