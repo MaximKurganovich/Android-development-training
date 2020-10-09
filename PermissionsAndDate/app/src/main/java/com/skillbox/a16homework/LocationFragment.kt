@@ -20,7 +20,7 @@ import java.time.format.DateTimeFormatter
 
 class LocationFragment : Fragment(R.layout.fragment_layout) {
 
-    private var locationDataSet: List<Data> = listOf()
+    private var locationDataSet: List<LocationData> = listOf()
     private var dataLocationAdapter: ListAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -89,8 +89,8 @@ class LocationFragment : Fragment(R.layout.fragment_layout) {
         } else {
             textViewDeclaration.visibility = View.GONE
             recycleView.visibility = View.VISIBLE
-            initAdapter()
         }
+        initAdapter()
         buttonConsent.visibility = View.GONE
         buttonGetLocation.visibility = View.VISIBLE
         buttonGetLocation.setOnClickListener { locationRequest() }
@@ -102,11 +102,11 @@ class LocationFragment : Fragment(R.layout.fragment_layout) {
     private fun locationRequest() {
         if (permissionApproval()) {
             val zonedDateTime = ZonedDateTime.now()
-            val a = LocationServices.getFusedLocationProviderClient(requireContext()).lastLocation
-            a.addOnSuccessListener {
+            val location = LocationServices.getFusedLocationProviderClient(requireContext()).lastLocation
+            location.addOnSuccessListener {
                 it?.let {
                     locationDataSet = listOf(
-                        Data.Location(
+                        LocationData.Location(
                             id = locationDataSet.size,
                             time = DateTimeFormatter.ofPattern("HH:mm dd.MM.yyyy").withZone(ZoneId.systemDefault()).format(zonedDateTime),
                             lnd = it.latitude,
@@ -115,6 +115,7 @@ class LocationFragment : Fragment(R.layout.fragment_layout) {
                         )
                     ) + locationDataSet
                     dataLocationAdapter?.items = locationDataSet
+                    println("$locationDataSet")
                 }
             }.addOnCanceledListener {
                 Toast.makeText(
