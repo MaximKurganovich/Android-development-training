@@ -2,6 +2,8 @@ package com.skillbox.a16homework
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -13,15 +15,24 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.location.LocationServices
 import kotlinx.android.synthetic.main.fragment_layout.*
+import org.threeten.bp.Instant
+import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
+import kotlin.properties.Delegates
 
 
-class LocationFragment : Fragment(R.layout.fragment_layout) {
+class LocationFragment : Fragment(R.layout.fragment_layout), CorrectOrDelete {
 
     private var locationDataSet: List<LocationData> = listOf()
     private var dataLocationAdapter: ListAdapter? = null
+
+    //    Переменная для определения текущего времени в методе initTime
+    private var selectedMessageInstant: Instant? = null
+
+    // В эту переменную записывается номер позиции элемента в списке
+    private var selectedPosition by Delegates.notNull<Int>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,38 +95,36 @@ class LocationFragment : Fragment(R.layout.fragment_layout) {
 //    который запрашивает текущее местоположение пользователя
     @RequiresApi(Build.VERSION_CODES.O)
     private fun changeOfFragmentInterface() {
-        if (locationDataSet.isEmpty()) {
-            textViewDeclaration.text = fragmentView.resources.getString(R.string.noDisplayLocations)
-        } else {
-            textViewDeclaration.visibility = View.GONE
-            recycleView.visibility = View.VISIBLE
-        }
+        textViewDeclaration.text = fragmentView.resources.getString(R.string.noDisplayLocations)
+        recycleView.visibility = View.VISIBLE
         initAdapter()
         buttonConsent.visibility = View.GONE
         buttonGetLocation.visibility = View.VISIBLE
         buttonGetLocation.setOnClickListener { locationRequest() }
     }
 
-//    Метод запрашивает местоположение пользователя и добавляет в список, который содержит все ранее загруженные локации
+    //    Метод запрашивает местоположение пользователя и добавляет в список, который содержит все ранее загруженные локации
     @SuppressLint("MissingPermission")
     @RequiresApi(Build.VERSION_CODES.O)
     private fun locationRequest() {
         if (permissionApproval()) {
             val zonedDateTime = ZonedDateTime.now()
-            val location = LocationServices.getFusedLocationProviderClient(requireContext()).lastLocation
+            val location =
+                LocationServices.getFusedLocationProviderClient(requireContext()).lastLocation
             location.addOnSuccessListener {
                 it?.let {
                     locationDataSet = listOf(
                         LocationData.Location(
                             id = locationDataSet.size,
-                            time = DateTimeFormatter.ofPattern("HH:mm dd.MM.yyyy").withZone(ZoneId.systemDefault()).format(zonedDateTime),
+                            time = DateTimeFormatter.ofPattern("HH:mm dd.MM.yyyy")
+                                .withZone(ZoneId.systemDefault()).format(zonedDateTime),
                             lnd = it.latitude,
                             lat = it.longitude,
                             image = addImage()
                         )
                     ) + locationDataSet
                     dataLocationAdapter?.items = locationDataSet
-                    println("$locationDataSet")
+                    emptyList()
                 }
             }.addOnCanceledListener {
                 Toast.makeText(
@@ -123,15 +132,17 @@ class LocationFragment : Fragment(R.layout.fragment_layout) {
                     fragmentView.resources.getText(R.string.locationError),
                     Toast.LENGTH_SHORT
                 ).show()
-            }.addOnFailureListener{Toast.makeText(
-                requireContext(),
-                fragmentView.resources.getText(R.string.locationError),
-                Toast.LENGTH_SHORT
-            ).show()}
+            }.addOnFailureListener {
+                Toast.makeText(
+                    requireContext(),
+                    fragmentView.resources.getText(R.string.locationError),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
     }
 
-//    Метод выбирает случайную картинку и загружает на место аватара при запросе локации
+    //    Метод выбирает случайную картинку и загружает на место аватара при запросе локации
     private fun addImage(): String {
         val linksToImages = listOf(
             "http://rabstol.ru/wallpapers/e5233f69f41a82bdef185ef2f8f55d1f/3802_5.jpg",
@@ -145,13 +156,88 @@ class LocationFragment : Fragment(R.layout.fragment_layout) {
         return linksToImages.random()
     }
 
-    private fun initAdapter () {
-        dataLocationAdapter = ListAdapter()
+    //    Метод инициализирует адаптер
+    private fun initAdapter() {
+        dataLocationAdapter = ListAdapter { position -> createDialog(position) }
         with(recycleView) {
             adapter = dataLocationAdapter
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(true)
+            visibility = View.VISIBLE
         }
+    }
+
+    //    Если список пуст, то появляется текст с надписью,  что элементов в списке нет
+    private fun emptyList() {
+        if (locationDataSet.isEmpty()) {
+            textViewDeclaration.visibility = View.VISIBLE
+            recycleView.visibility = View.GONE
+        } else {
+            textViewDeclaration.visibility = View.GONE
+            recycleView.visibility = View.VISIBLE
+        }
+    }
+
+    //    Метод создает диалог и записывает номер позиции элемента в списке
+    private fun createDialog(position: Int) {
+        DialogueForSelection().show(childFragmentManager, null)
+        selectedPosition = position
+    }
+
+    //    Получаем из диалога номер выбранной позиции. В зависимости от выбора элемент в списке редактируется или удаляется
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun correctOrDeleteElement(key: Int) {
+        when (key) {
+            0 -> initTime()
+            1 -> deleteLocation(selectedPosition)
+        }
+    }
+
+    //    Устанавливаем дату и время в элементе списка. По умолчанию в диалогах отображается установленное в элементе
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun initTime() {
+        val currentDataTime = LocalDateTime.now()
+
+        DatePickerDialog(
+            requireContext(), { _, year, month, dayOfMonth ->
+                TimePickerDialog(
+                    requireContext(),
+                    { _, hourOfDay, minute ->
+                        val zonedDateTime = org.threeten.bp.LocalDateTime.of(
+                            year,
+                            month + 1,
+                            dayOfMonth,
+                            hourOfDay,
+                            minute
+                        )
+                            .atZone(org.threeten.bp.ZoneId.systemDefault())
+
+                        Toast.makeText(
+                            requireContext(),
+                            "Выбрано время: $zonedDateTime",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        selectedMessageInstant = zonedDateTime.toInstant()
+                    },
+                    currentDataTime.hour,
+                    currentDataTime.minute,
+                    true
+                )
+                    .show()
+            },
+            currentDataTime.year,
+            currentDataTime.month.value - 1,
+            currentDataTime.dayOfMonth
+        )
+            .show()
+
+    }
+
+    //    Метод удаления элемента
+    private fun deleteLocation(position: Int) {
+        locationDataSet = locationDataSet.filterIndexed { index, _ -> index != position }
+        emptyList()
+        dataLocationAdapter?.items = locationDataSet
     }
 
     override fun onDestroy() {
@@ -159,6 +245,7 @@ class LocationFragment : Fragment(R.layout.fragment_layout) {
         dataLocationAdapter = null
     }
 
+    //    Константа для запроса разрешения
     companion object {
         const val LOCATION_PERMISSION = 1
     }

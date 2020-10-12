@@ -19,7 +19,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@id/textViewLatitude"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

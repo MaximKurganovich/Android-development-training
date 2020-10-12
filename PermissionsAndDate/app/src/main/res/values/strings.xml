@@ -8,4 +8,5 @@
     <string name="locationError">Произошла ошибка при получении местоположения</string>
     <string name="longitude">Долгота</string>
     <string name="latitude">Ширина</string>
+    <string name="choice">Выбор</string>
 </resources>
