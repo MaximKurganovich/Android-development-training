@@ -7,7 +7,9 @@ import android.app.TimePickerDialog
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
@@ -34,9 +36,13 @@ class LocationFragment : Fragment(R.layout.fragment_layout), CorrectOrDelete {
     // В эту переменную записывается номер позиции элемента в списке
     private var selectedPosition by Delegates.notNull<Int>()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         retainInstance = true
+        return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -95,6 +101,7 @@ class LocationFragment : Fragment(R.layout.fragment_layout), CorrectOrDelete {
 //    который запрашивает текущее местоположение пользователя
     @RequiresApi(Build.VERSION_CODES.O)
     private fun changeOfFragmentInterface() {
+        emptyList()
         textViewDeclaration.text = fragmentView.resources.getString(R.string.noDisplayLocations)
         recycleView.visibility = View.VISIBLE
         initAdapter()
@@ -197,27 +204,23 @@ class LocationFragment : Fragment(R.layout.fragment_layout), CorrectOrDelete {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun initTime() {
         val currentDataTime = LocalDateTime.now()
-
         DatePickerDialog(
             requireContext(), { _, year, month, dayOfMonth ->
                 TimePickerDialog(
                     requireContext(),
                     { _, hourOfDay, minute ->
-                        val zonedDateTime = org.threeten.bp.LocalDateTime.of(
+                        val zonedDateTime = LocalDateTime.of(
                             year,
                             month + 1,
                             dayOfMonth,
                             hourOfDay,
                             minute
                         )
-                            .atZone(org.threeten.bp.ZoneId.systemDefault())
-
-                        Toast.makeText(
-                            requireContext(),
-                            "Выбрано время: $zonedDateTime",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        selectedMessageInstant = zonedDateTime.toInstant()
+                            .atZone(ZoneId.systemDefault())
+//                        selectedMessageInstant = zonedDateTime.toInstant()
+                        val listToChange = locationDataSet.toMutableList()
+                        (listToChange[selectedPosition] as LocationData.Location).time = DateTimeFormatter.ofPattern("HH:mm dd.MM.yyyy").withZone(ZoneId.systemDefault()).format(zonedDateTime)
+                        locationDataSet = listToChange.toList()
                     },
                     currentDataTime.hour,
                     currentDataTime.minute,
@@ -230,7 +233,7 @@ class LocationFragment : Fragment(R.layout.fragment_layout), CorrectOrDelete {
             currentDataTime.dayOfMonth
         )
             .show()
-
+        dataLocationAdapter?.items = locationDataSet
     }
 
     //    Метод удаления элемента
