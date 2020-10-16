@@ -200,7 +200,11 @@ class LocationFragment : Fragment(R.layout.fragment_layout), CorrectOrDelete {
         }
     }
 
-    //    Устанавливаем дату и время в элементе списка. По умолчанию в диалогах отображается установленное в элементе
+//    Устанавливаем дату и время в элементе списка. По умолчанию в диалогах отображается установленное в элементе
+//    Все классы представляют из себя ссылочный тип. Поэтому, когда обновляются данные у одного элемента в listToChange,
+//    а не заменяется, они также обновляются и в адаптере, у которого лежит та же самая ссылка на данный элемент.
+//    Что приводит к тому, что адаптер не понимает, что данные обновились. Устраняется это либо вызовом метода notify
+//    либо копированием объекта
     @RequiresApi(Build.VERSION_CODES.O)
     private fun initTime() {
         val currentDataTime = LocalDateTime.now()
@@ -219,8 +223,12 @@ class LocationFragment : Fragment(R.layout.fragment_layout), CorrectOrDelete {
                             .atZone(ZoneId.systemDefault())
 //                        selectedMessageInstant = zonedDateTime.toInstant()
                         val listToChange = locationDataSet.toMutableList()
-                        (listToChange[selectedPosition] as LocationData.Location).time = DateTimeFormatter.ofPattern("HH:mm dd.MM.yyyy").withZone(ZoneId.systemDefault()).format(zonedDateTime)
+                        val item = (listToChange[selectedPosition] as LocationData.Location).copy()
+                        item.time = DateTimeFormatter.ofPattern("HH:mm dd.MM.yyyy")
+                            .withZone(ZoneId.systemDefault()).format(zonedDateTime)
+                        listToChange[selectedPosition] = item
                         locationDataSet = listToChange.toList()
+                        dataLocationAdapter?.items = locationDataSet
                     },
                     currentDataTime.hour,
                     currentDataTime.minute,
@@ -233,7 +241,7 @@ class LocationFragment : Fragment(R.layout.fragment_layout), CorrectOrDelete {
             currentDataTime.dayOfMonth
         )
             .show()
-        dataLocationAdapter?.items = locationDataSet
+
     }
 
     //    Метод удаления элемента
