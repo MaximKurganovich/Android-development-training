@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/linearLayoutManagerFragment">
+
+    <fragment
+        android:id="@+id/linearLayoutManagerFragment"
+        android:name="com.skillbox.a14homework.linear_layout_manager.LinearLayoutManagerFragment"
+        android:label="LinearLayoutManagerFragment"
+        tools:layout="@layout/list_of_celestial_bodies_fragment">
+        <action
+            android:id="@+id/action_linearLayoutManagerFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment"
+            app:enterAnim="@anim/fragment_open_enter" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.skillbox.a14homework.linear_layout_manager.DetailsFragment"
+        android:label="DetailsFragment"
+        tools:layout="@layout/details_fragment">
+        <argument
+            android:name="name"
+            app:argType="string" />
+        <argument
+            android:name="id"
+            app:argType="integer" />
+        <argument android:name="a" />
+    </fragment>
+</navigation>
