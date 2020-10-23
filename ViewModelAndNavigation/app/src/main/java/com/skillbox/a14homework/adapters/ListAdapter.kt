@@ -5,13 +5,13 @@ import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
 import com.skillbox.a14homework.CelestialBodies
 
 class ListAdapter(
-    onItemClick: (position: Int) -> Unit
+    onItemClick: (position: Int) -> Unit, onLongItemClick: (position: Int) -> Unit
 ) : AsyncListDifferDelegationAdapter<CelestialBodies>(CelestialBodiesDiffUtilCallback()) {
 
     // В дополнительном конструкторе проверяется какой адаптер может обработать элемент
     init {
-        delegatesManager.addDelegate(StarAdapterDelegate(onItemClick)).addDelegate(
-            PlanetAdapterDelegate(onItemClick)).addDelegate(ImageGridAdapterDelegate()
+        delegatesManager.addDelegate(StarAdapterDelegate(onItemClick, onLongItemClick)).addDelegate(
+            PlanetAdapterDelegate(onItemClick, onLongItemClick)).addDelegate(ImageGridAdapterDelegate()
         )
     }
 

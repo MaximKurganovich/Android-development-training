@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.for_list_star.*
 /*
 * Смотри {@link PlanetAdapterDelegate}
 */
-class StarAdapterDelegate(private val onItemClick: (position: Int) -> Unit) :
+class StarAdapterDelegate(private val onItemClick: (position: Int) -> Unit, private val onLongItemClick: (position: Int) -> Unit) :
     AbsListItemAdapterDelegate<CelestialBodies.Star, CelestialBodies, StarAdapterDelegate.StarHolder>() {
 
     override fun isForViewType(
@@ -25,7 +25,7 @@ class StarAdapterDelegate(private val onItemClick: (position: Int) -> Unit) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup): StarHolder {
-        return StarHolder(parent.inflate(R.layout.for_list_star), onItemClick)
+        return StarHolder(parent.inflate(R.layout.for_list_star), onItemClick, onLongItemClick)
     }
 
     override fun onBindViewHolder(
@@ -36,8 +36,8 @@ class StarAdapterDelegate(private val onItemClick: (position: Int) -> Unit) :
         holder.bind(item)
     }
 
-    class StarHolder(override val containerView: View, onItemClick: (position: Int) -> Unit) :
-        BaseHolder(containerView, onItemClick), LayoutContainer {
+    class StarHolder(override val containerView: View, onItemClick: (position: Int) -> Unit, onLongItemClick: (position: Int) -> Unit) :
+        BaseHolder(containerView, onItemClick, onLongItemClick), LayoutContainer {
 
         @SuppressLint("SetTextI18n")
         fun bind(star: CelestialBodies.Star) {

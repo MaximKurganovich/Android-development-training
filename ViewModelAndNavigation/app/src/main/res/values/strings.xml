@@ -9,7 +9,9 @@
     <string name="km">км</string>
     <string name="emptyList">Список пуст</string>
     <string name="linearlayoutmanager">Linear Layout Manager</string>
-    <string name="gridlayoutmanager">Grid Layout Manager</string>
-    <string name="staggeredgridlayoutmanager">Staggered Grid Layout Manager</string>
     <string name="detail_info">Детальная информация:</string>
+    <string name="no_name">Без имени</string>
+    <string name="name_of_a_celestial_body">Название тела</string>
+    <string name="id">id</string>
+    <string name="delete_element">Элемент удален</string>
 </resources>

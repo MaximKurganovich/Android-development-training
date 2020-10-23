@@ -10,6 +10,7 @@ import com.skillbox.a14homework.R
 import kotlinx.android.synthetic.main.layout_for_dialogue_planet.view.*
 import kotlinx.android.synthetic.main.layout_for_dialogue_star.view.*
 import kotlinx.android.synthetic.main.layout_for_dialogue_star.view.editLinkToAvatar
+import kotlin.random.Random
 
 interface AddNewElement {
 
@@ -73,7 +74,7 @@ class DialogForAddingAStar : DialogForAddingAnItem() {
             name = nameStar,
             surfaceTemperature = surfaceTemperature,
             avatarLink = linkToAvatar,
-            id = (DataViewModel().celestialBodies.value?.size ?: +1)
+            id = Random.nextInt()
         )
     }
 }
@@ -111,7 +112,7 @@ class DialogForAddingAPlanet : DialogForAddingAnItem() {
             avatarLink = linkToAvatar,
             diameter = planetDiameter,
             dayLength = dayLength,
-            id = (DataViewModel().celestialBodies.value?.size ?: +1)
+            id = Random.nextInt()
         )
     }
 }

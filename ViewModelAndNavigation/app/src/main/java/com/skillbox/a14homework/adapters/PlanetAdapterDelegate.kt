@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.for_list_planet.*
     2. Общий тип списка
     3. Тип ViewHolder
  */
-class PlanetAdapterDelegate(private val onItemClick: (position: Int) -> Unit) :
+class PlanetAdapterDelegate(private val onItemClick: (position: Int) -> Unit, private val onLongItemClick: (position: Int) -> Unit) :
     AbsListItemAdapterDelegate<CelestialBodies.Planet, CelestialBodies, PlanetAdapterDelegate.PlanetHolder>() {
 
 //    Метод возвращает true, если поступивший элемент может быть обработан текущим адаптером
@@ -29,7 +29,7 @@ class PlanetAdapterDelegate(private val onItemClick: (position: Int) -> Unit) :
 
 //    Создает VIewHolder
     override fun onCreateViewHolder(parent: ViewGroup): PlanetHolder {
-        return PlanetHolder(parent.inflate(R.layout.for_list_planet), onItemClick)
+        return PlanetHolder(parent.inflate(R.layout.for_list_planet), onItemClick, onLongItemClick)
     }
 
 //    Связывает ViewHolder и элементы
@@ -44,8 +44,8 @@ class PlanetAdapterDelegate(private val onItemClick: (position: Int) -> Unit) :
 /*    Класс Holder, который наследуется от интерфейса LayoutContainer
       Благодаря интерфейсу холдер знает какая вью корневая и можно получать вью из корневой из кэша, что повышает скорость работы
  */
-    class PlanetHolder(override val containerView: View, onItemClick: (position: Int) -> Unit) :
-        BaseHolder(containerView, onItemClick), LayoutContainer {
+    class PlanetHolder(override val containerView: View, onItemClick: (position: Int) -> Unit, onLongItemClick: (position: Int) -> Unit) :
+        BaseHolder(containerView, onItemClick, onLongItemClick), LayoutContainer {
 
 //    Метод утснавливает в оставшиеся поля значения
         @SuppressLint("SetTextI18n")
