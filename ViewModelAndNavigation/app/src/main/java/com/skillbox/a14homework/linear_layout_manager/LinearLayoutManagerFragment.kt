@@ -57,24 +57,9 @@ class LinearLayoutManagerFragment :
     //    Метод открывает детальный фрагмент при нажатии на элемент
     private fun openDetailsFragment(position: Int) {
         val element = dataViewModel.celestialBodies.value?.get(position)
-        var name: String = fragment.resources.getString(R.string.no_name)
-        var id: Int = 0
-        if (element is CelestialBodies.Planet) {
-            id = element.id
-            if (element.name != "") {
-                name = element.name
-            }
-        }
-        if (element is CelestialBodies.Star) {
-            id = element.id
-            if (element.name != "") {
-                name = element.name
-            }
-        }
         val action =
             LinearLayoutManagerFragmentDirections.actionLinearLayoutManagerFragmentToDetailsFragment(
-                name,
-                id
+                element!!
             )
         findNavController().navigate(action)
     }

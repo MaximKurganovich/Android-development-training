@@ -5,6 +5,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.skillbox.a14homework.R
 
 abstract class BaseHolder(
@@ -36,6 +37,7 @@ abstract class BaseHolder(
         avatarLink: String
     ) {
         nameTextView.text = name
-        Glide.with(itemView).load(avatarLink).placeholder(R.drawable.empty_avatar).into(avatar)
+        Glide.with(itemView).load(avatarLink).diskCacheStrategy(DiskCacheStrategy.ALL)
+            .placeholder(R.drawable.empty_avatar).into(avatar)
     }
 }

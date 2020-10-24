@@ -21,10 +21,7 @@
         android:label="DetailsFragment"
         tools:layout="@layout/details_fragment">
         <argument
-            android:name="name"
-            app:argType="string" />
-        <argument
-            android:name="id"
-            app:argType="integer" />
+            android:name="celestianBodies"
+            app:argType="com.skillbox.a14homework.CelestialBodies" />
     </fragment>
 </navigation>
