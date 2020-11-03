@@ -13,7 +13,7 @@ import java.io.IOException
 
 object Network {
 
-    const val MOVIE_API_KEY = "YOUR API KEY"
+    const val MOVIE_API_KEY = "http://www.omdbapi.com/?i=tt3896198&apikey=504e0d9c"
 
     private val client = OkHttpClient.Builder()
         .addInterceptor(HttpLoggingInterceptor().apply {
@@ -36,7 +36,7 @@ object Network {
         }
     }
 
-    private fun api(): MovieApi {
+    fun api(): MovieApi {
         return retrofit.create()
     }
 }
