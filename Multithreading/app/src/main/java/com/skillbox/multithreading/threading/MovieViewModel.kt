@@ -7,19 +7,19 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import com.skillbox.multithreading.networking.Movie
 
-class MovieViewModel: ViewModel() {
+class MovieViewModel : ViewModel() {
 
     private val userRepository = MovieRepository()
 
     private val movieIds = listOf(
-            "tt0167261",
-            "tt0133093",
-            "tt0165832",
-            "tt0088763",
-            "tt0096874",
-            "tt0120201",
-            "tt0101272",
-            "tt0481499"
+        "tt0167261",
+        "tt0133093",
+        "tt0165832",
+        "tt0088763",
+        "tt0096874",
+        "tt0120201",
+        "tt0101272",
+        "tt0481499"
     )
 
     private val moviesLiveData = MutableLiveData<MutableList<Movie>>()
@@ -28,7 +28,7 @@ class MovieViewModel: ViewModel() {
         get() = moviesLiveData
 
     fun requestMovies() {
-        moviesLiveData.map {it.clear()}
-        moviesLiveData.postValue(userRepository.fetchMovies(movieIds))
+        moviesLiveData.map { it.clear() }
+        userRepository.fetchMovies(movieIds) { allMovies -> moviesLiveData.postValue(allMovies) }
     }
 }

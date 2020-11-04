@@ -1,6 +1,5 @@
 package com.skillbox.multithreading.threading
 
-import android.util.Log
 import com.skillbox.multithreading.networking.Movie
 import com.skillbox.multithreading.networking.Network
 import java.util.*
@@ -13,12 +12,11 @@ class MovieRepository {
     }
 
     fun fetchMovies(
-        movieIds: List<String>
-    ): MutableList<Movie> {
+        movieIds: List<String>,
+        onMoviesFetched: (allMovies: MutableList<Movie>) -> Unit
+    ) {
         val allMovies = Collections.synchronizedList(mutableListOf<Movie>())
-
         Thread {
-
             val threads = movieIds.chunked(2).map { movieChunk ->
                 Thread {
                     val movies = movieChunk.mapNotNull { movieId ->
@@ -27,11 +25,9 @@ class MovieRepository {
                     allMovies.addAll(movies)
                 }
             }
-
             threads.forEach { it.start() }
             threads.forEach { it.join() }
-
+            onMoviesFetched(allMovies)
         }.start()
-        return allMovies
     }
 }

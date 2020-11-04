@@ -23,7 +23,7 @@ object Network {
 
     private val retrofit = Retrofit.Builder()
         .client(client)
-        .baseUrl("http://www.omdbapi.com")
+        .baseUrl("https://www.omdbapi.com")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
