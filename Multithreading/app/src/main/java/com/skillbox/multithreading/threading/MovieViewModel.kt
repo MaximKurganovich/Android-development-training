@@ -24,11 +24,8 @@ class MovieViewModel : ViewModel() {
 
     private val moviesLiveData = MutableLiveData<MutableList<Movie>>()
 
-    val movies: LiveData<MutableList<Movie>>
-        get() = moviesLiveData
-
-    fun requestMovies() {
+    fun requestMovies(setAdapter: (movies: MutableList<Movie>) -> Unit) {
         moviesLiveData.map { it.clear() }
-        userRepository.fetchMovies(movieIds) { allMovies -> moviesLiveData.postValue(allMovies) }
+        userRepository.fetchMovies(movieIds) { allMovies -> setAdapter(allMovies) }
     }
 }

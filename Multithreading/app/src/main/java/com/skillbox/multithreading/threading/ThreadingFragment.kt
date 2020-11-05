@@ -3,6 +3,7 @@ package com.skillbox.multithreading.threading
 import android.os.Bundle
 import android.os.Handler
 import android.os.HandlerThread
+import android.os.Looper
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -15,17 +16,17 @@ import kotlinx.android.synthetic.main.fragment_threading.*
 
 class ThreadingFragment : Fragment(R.layout.fragment_threading) {
 
+    //    Создаются:
+//    1. Поле, в котором хранятся данные для списка
+//    2. Адаптер
+//    3. Handler.
     private val viewModel: MovieViewModel by viewModels()
-
     private var filmAdapter: FilmAdapter? = null
-    private lateinit var handler: Handler
-    private val mainHandler = Handler()
+    private val mainHandler = Handler(Looper.getMainLooper())
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         initList()
-        val handlerThread = HandlerThread("handler tread").apply { start() }
-        handler = Handler(handlerThread.looper)
         requestMovies.setOnClickListener { getInfoAboutFilms() }
     }
 
@@ -34,11 +35,7 @@ class ThreadingFragment : Fragment(R.layout.fragment_threading) {
         filmAdapter = null
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        handler.looper.quitSafely()
-    }
-
+    //    Адаптеру присваиваются атрибуты и указывается тип LayoutManager
     private fun initList() {
         filmAdapter = FilmAdapter()
         with(recycleView) {
@@ -49,11 +46,10 @@ class ThreadingFragment : Fragment(R.layout.fragment_threading) {
         }
     }
 
+//    Метод устанавливает через Handler список в адаптер
     private fun getInfoAboutFilms() {
-        viewModel.requestMovies()
-        viewModel.movies.observe(viewLifecycleOwner) { newList ->
-            filmAdapter?.items = newList
-        }
+        viewModel.requestMovies { movies -> mainHandler.post { filmAdapter?.items = movies } }
+//    Через секунду отображается ост
         mainHandler.postDelayed({
             Toast.makeText(
                 requireContext(),
