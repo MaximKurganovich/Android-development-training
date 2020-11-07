@@ -1,6 +1,5 @@
 package com.skillbox.multithreading.threading
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -22,10 +21,14 @@ class MovieViewModel : ViewModel() {
         "tt0481499"
     )
 
-    private val moviesLiveData = MutableLiveData<MutableList<Movie>>()
+    private val moviesLiveData = MutableLiveData<List<Movie>>()
+
+    val movieList: LiveData<List<Movie>>
+        get() = moviesLiveData
 
     fun requestMovies(setAdapter: (movies: MutableList<Movie>) -> Unit) {
-        moviesLiveData.map { it.clear() }
-        userRepository.fetchMovies(movieIds) { allMovies -> setAdapter(allMovies) }
+        moviesLiveData.postValue(listOf())
+        userRepository.fetchMovies(movieIds) { allMovies -> setAdapter(allMovies)
+        moviesLiveData.postValue(allMovies)}
     }
 }

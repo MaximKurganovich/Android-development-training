@@ -13,6 +13,7 @@ import com.skillbox.multithreading.R
 import com.skillbox.multithreading.adapter.FilmAdapter
 import jp.wasabeef.recyclerview.animators.ScaleInAnimator
 import kotlinx.android.synthetic.main.fragment_threading.*
+import com.skillbox.multithreading.networking.Movie as Movie
 
 class ThreadingFragment : Fragment(R.layout.fragment_threading) {
 
@@ -28,6 +29,7 @@ class ThreadingFragment : Fragment(R.layout.fragment_threading) {
         super.onActivityCreated(savedInstanceState)
         initList()
         requestMovies.setOnClickListener { getInfoAboutFilms() }
+        filmAdapter?.items = viewModel.movieList.value
     }
 
     override fun onDestroy() {
