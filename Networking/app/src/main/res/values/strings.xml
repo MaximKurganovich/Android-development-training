@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Networking</string>
+    <string name="search_name_movie_for_edit_text">Введите название фильма</string>
+    <string name="search_year_movie_for_edit_text">Введите год фильма</string>
+    <string name="choosing_a_movie_type">Выберите тип фильма</string>
+
+</resources>
