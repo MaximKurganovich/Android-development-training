@@ -48,6 +48,7 @@ dependencies {
     //RecyclerView
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'com.hannesdorfmann:adapterdelegates4:4.3.0'
+    implementation 'jp.wasabeef:recyclerview-animators:3.0.0'
 
     //ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
