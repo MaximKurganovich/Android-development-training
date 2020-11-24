@@ -1,6 +1,6 @@
 <resources>
     <string-array name="list_of_movie_types">
-        <item>Сериал</item>
+        <item>Серия</item>
         <item>Фильм</item>
         <item>Эпизод</item>
         <item>Не выбрано</item>

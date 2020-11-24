@@ -13,12 +13,12 @@ import java.io.IOException
 
 class MovieRepository {
 
-    fun searchMovie(movie: ObjectToSearch, callback: (List<Movie>) -> Unit): Call {
+    fun searchMovie(movie: ObjectToSearch, callback: (ResponseList) -> Unit): Call {
         return Network.getSearchMovieCall(movie.title, movie.type, movie.year).apply {
             enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {
                     Log.e("Server", "execute request error = ${e.message}", e)
-                    callback(emptyList())
+                    callback(ResponseList.Error(e.message.toString()))
                 }
 
                 override fun onResponse(call: Call, response: Response) {
@@ -27,28 +27,29 @@ class MovieRepository {
                         val movies = parseMovieResponse(responseString)
                         callback(movies)
                     } else {
-                        emptyList<Movie>()
+                        callback(ResponseList.Error("Ошибка при получении данных. Код ошибки ${response.code}"))
                     }
                 }
             })
         }
     }
 
-    private fun parseMovieResponse(responseBody: String): List<Movie> {
+    private fun parseMovieResponse(responseBody: String): ResponseList {
         return try {
             val jsonObject = JSONObject(responseBody)
             val movieArray = jsonObject.getJSONArray("Search")
-            (0 until movieArray.length()).map { index -> movieArray.getJSONObject(index) }
+
+            ResponseList.Success((0 until movieArray.length()).map { index -> movieArray.getJSONObject(index) }
                 .map { movieJSONObject ->
                     val title = movieJSONObject.getString("Title")
                     val year = movieJSONObject.getString("Year")
                     val id = movieJSONObject.getString("imdbID")
                     val type = movieJSONObject.getString("Type")
                     Movie(title = title, year = year, id = id, type = type)
-                }
+                })
         } catch (e: JSONException) {
             Log.e("Server", "parse response error = ${e.message}", e)
-            emptyList()
+            ResponseList.Error(e.message.toString())
         }
     }
 
