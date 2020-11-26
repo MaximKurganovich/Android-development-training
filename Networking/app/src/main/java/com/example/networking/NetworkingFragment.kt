@@ -4,9 +4,9 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.util.AttributeSet
-import android.util.Xml
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.appcompat.widget.AppCompatAutoCompleteTextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -15,15 +15,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.networking.adapter.FilmAdapter
 import com.example.networking.networking.ObjectToSearch
 import com.example.networking.utils.autoCleared
-import com.facebook.flipper.core.FlipperPlugin
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import jp.wasabeef.recyclerview.animators.ScaleInAnimator
 import kotlinx.android.synthetic.main.networking_fragment.*
-import java.util.*
 
 
 class NetworkingFragment : Fragment(R.layout.networking_fragment) {
 
+    // Адаптер, который автоматически очистится при уничтожении фрагмента, благодаря свойству autoCleared()
     private var movieAdapter: FilmAdapter by autoCleared()
     private val viewModel: MovieViewModel by viewModels()
 
@@ -33,6 +32,7 @@ class NetworkingFragment : Fragment(R.layout.networking_fragment) {
         createADropdownList()
     }
 
+    //    Адаптеру присваиваются атрибуты и указывается тип LayoutManager
     private fun initList() {
         movieAdapter = FilmAdapter()
         moviesList.apply {
@@ -63,24 +63,21 @@ class NetworkingFragment : Fragment(R.layout.networking_fragment) {
                 resources.getStringArray(R.array.list_of_movie_types)
             )
         }
-        filled_exposed_dropdown.apply {
-            freezesText.not()
+        spinner.apply {
             setAdapter(adapter)
-            setText("Фильм", false)
-            val parser = resources.getXml(R.layout.dropdown_menu_popup_item)
-            val attributes = Xml.asAttributeSet(parser)
-            ExposedDropDown(requireContext(), attributes).freezesText
+            prompt = resources.getString(R.string.choosing_a_movie_type)
         }
-//        getAttributeBooleanValue
         settingParameters()
     }
 
+    // Метод, который при нажатии на кнопку "Поиск" передает введенные данные во вьюмодель, а также
+    // отслеживает изменения в списке данных
     private fun settingParameters() {
         searchButton.setOnClickListener {
             val searchMovie = ObjectToSearch(
                 title = searchNameEditText.text.toString(),
                 year = searchYearEditText.text.toString(),
-                type = when (filled_exposed_dropdown.text.toString()) {
+                type = when (spinner.selectedItemPosition.toString()) {
                     "Фильм" -> "movie"
                     "Серия" -> "series"
                     "Эпизод" -> "episode"
@@ -91,6 +88,8 @@ class NetworkingFragment : Fragment(R.layout.networking_fragment) {
         }
         viewModel.getMoviesLiveData().observe(viewLifecycleOwner) { movieAdapter.items = it }
         viewModel.isLoading.observe(viewLifecycleOwner, ::updateLoadingState)
+
+        // При получении ошибки от сервера отображается тост с кодом ошибки
         viewModel.showErrorDialog.observe(viewLifecycleOwner) { errorMassage ->
             Toast.makeText(
                 requireContext(),
@@ -100,17 +99,28 @@ class NetworkingFragment : Fragment(R.layout.networking_fragment) {
         }
     }
 
+    // Благодаря этому методу во время получения данных от сервера блокируются все поля и кнопки
+    // и отображается progressBar
     private fun updateLoadingState(isLoading: Boolean) {
         moviesList.isVisible = isLoading.not()
         progressBar.isVisible = isLoading
         searchButton.isEnabled = isLoading.not()
         searchNameEditText.isEnabled = isLoading.not()
         searchYearEditText.isEnabled = isLoading.not()
-        filled_exposed_dropdown.isEnabled = isLoading.not()
+        spinner.isEnabled = isLoading.not()
     }
 
+    // Класс должен был помочь избавиться от бага, при котором после выбора типа фильма в
+    // AutoCompleteTextView и повороте экрана в списке оставался один ранее выбранный вариант
     class ExposedDropDown(context: Context, attributeSet: AttributeSet?) :
         MaterialAutoCompleteTextView(context, attributeSet) {
+        override fun getFreezesText(): Boolean {
+            return false
+        }
+    }
+
+    class ExposedDropdownMenu(context: Context, attributeSet: AttributeSet?) :
+        AppCompatAutoCompleteTextView(context, attributeSet) {
         override fun getFreezesText(): Boolean {
             return false
         }

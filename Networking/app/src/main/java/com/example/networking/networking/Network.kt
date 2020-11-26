@@ -8,10 +8,15 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
 
+// Класс, который собирает http запрос
 object Network {
 
+    // Плагин для Flipper
     val flipperNetworkPlugin = NetworkFlipperPlugin()
 
+    // Клиент для всего приложения. Клиент модифицирован интерсепторами.
+    // Первый интерсептор модифицирует запрос, второй - логирует запрос, третий - позволяет
+    // просматривать логи в Flipper
     private val client = OkHttpClient.Builder()
         .addInterceptor(CustomInterceptor())
         .addInterceptor(HttpLoggingInterceptor().apply {
@@ -20,6 +25,8 @@ object Network {
         .addInterceptor(FlipperOkhttpInterceptor(flipperNetworkPlugin))
         .build()
 
+    // Функция поиска фильмов. Запросу присваиваются параметры. Потом запрос будет модифиццирован
+    // в клиенте
     fun getSearchMovieCall(text: String, type: String, year: String): Call {
         //http://www.omdbapi.com/?apikey=[yourkey]&s=
 

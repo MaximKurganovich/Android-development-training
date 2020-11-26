@@ -1,8 +1,11 @@
 package com.example.networking.networking
 
-import android.widget.AdapterView
+/*
+    Первый класс предназначен для объектов, которые получили в ответе от сервера,
+    второй - для отправки запроса на сервер
+*/
 
-data class Movie (
+data class Movie(
     val id: String,
     val title: String,
     val year: String,

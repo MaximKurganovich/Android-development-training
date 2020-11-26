@@ -13,16 +13,22 @@ class MovieViewModel: ViewModel() {
     private val userRepository = MovieRepository()
     private val moviesLiveData = MutableLiveData<List<Movie>>()
     private val isLoadingLiveData = MutableLiveData<Boolean>()
-    private var currentCall: Call? = null
-    private val showErrorDialogLiveData = SingleLiveEvent<String>()
 
+    //    Поле, которое иформирует 1 раз об изменении данных
+    private val showErrorDialogLiveData = SingleLiveEvent<String>()
+    // Переменная создана, чтобы в случае необходимости отменить уже созданный запрос
+    private var currentCall: Call? = null
+
+    //    Получение поля, которое информирует 1 раз об изменении данных
     val showErrorDialog: LiveData<String>
         get() = showErrorDialogLiveData
 
+    //    Поле для получения списка объектов в других классах
     fun getMoviesLiveData(): LiveData<List<Movie>> {
         return moviesLiveData
     }
 
+    // Поле, благодаря которому во фрагменте блокируются поля и кнопки во время запроса
     val isLoading: LiveData<Boolean>
         get() = isLoadingLiveData
 
@@ -48,6 +54,7 @@ class MovieViewModel: ViewModel() {
     }
 }
 
+// Класс, созданный для хранения ответа от сервера.
 sealed class ResponseList{
     data class Success (val resultList: List<Movie>): ResponseList()
     data class Error(val errorMessage: String): ResponseList()

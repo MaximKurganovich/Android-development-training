@@ -9,6 +9,7 @@ import com.facebook.flipper.plugins.inspector.InspectorFlipperPlugin
 import com.facebook.flipper.plugins.sections.SectionsFlipperPlugin
 import com.facebook.soloader.SoLoader
 
+// Подключаем Flipper в проект (не забыть указать класс в манифесте)
 class App : Application() {
     override fun onCreate() {
         super.onCreate()

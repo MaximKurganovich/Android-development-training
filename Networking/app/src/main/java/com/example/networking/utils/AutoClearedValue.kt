@@ -9,9 +9,7 @@ import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
 /**
- * A lazy property that gets cleaned up when the fragment's view is destroyed.
- *
- * Accessing this variable while the fragment's view is destroyed will throw NPE.
+ * Свойство, которое очищается при уничтожении фрагмента
  */
 class AutoClearedValue<T : Any>(val fragment: Fragment) : ReadWriteProperty<Fragment, T> {
     private var _value: T? = null
