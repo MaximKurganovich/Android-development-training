@@ -1,14 +1,14 @@
 package com.example.moshi.adapter
 
 import androidx.recyclerview.widget.DiffUtil
-import com.example.moshi.networking.Movie
+import com.example.moshi.networking.movie.Movie
 import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
 
-class FilmAdapter: AsyncListDifferDelegationAdapter<Movie>(MovieDiffUtilCallback()) {
+class FilmAdapter(onItemClick: (position: Int) -> Unit): AsyncListDifferDelegationAdapter<Movie>(MovieDiffUtilCallback()) {
 
     // В дополнительном конструкторе проверяется какой адаптер может обработать элемент
     init{
-        delegatesManager.addDelegate(MovieAdapterDelegate())
+        delegatesManager.addDelegate(MovieAdapterDelegate(onItemClick))
     }
 
     //    Класс, который определяет правила сравнения элементов. Необходим для работы DiffUtil

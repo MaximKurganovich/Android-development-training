@@ -1,14 +1,15 @@
 package com.example.moshi
 
 import android.util.Log
-import com.example.moshi.networking.Movie
+import com.example.moshi.networking.movie.Movie
 import com.example.moshi.networking.Network
-import com.example.moshi.networking.ObjectToSearch
+import com.example.moshi.networking.movie.MovieRating
+import com.example.moshi.networking.movie.ObjectToSearch
 import com.squareup.moshi.Moshi
+import com.squareup.moshi.Types
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.Response
-import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
 
@@ -42,39 +43,36 @@ class MovieRepository {
         }
     }
 
-    // Метод парсинга ответа. Принимается JSON, затем из него достается массив,
-    // а уже из массива достаются нужные данные.
+    // Метод парсинга ответа.
     private fun parseMovieResponse(responseBody: String): ResponseList {
-//        val moshi = Moshi.Builder().build()
-//        val adapter = moshi.adapter(Movie::class.java).nonNull()
-//        return try {
-//            val movies = adapter.fromJson(responseBody)
-//            println(movies)
-//            ResponseList.Success(emptyList())
-//        } catch (e: Exception) {
-//            Log.e("Server", "parse response error = ${e.message}", e)
-//            ResponseList.Error(e.message.toString())
-//        }
-
+        val moshi = Moshi.Builder().build()
+        val movieListType = Types.newParameterizedType(List::class.java, Movie::class.java)
+        val adapter = moshi.adapter<List<Movie>>(movieListType).nonNull()
         return try {
-            val jsonObject = JSONObject(responseBody)
-            val movieArray = jsonObject.getJSONArray("Search")
-
-            ResponseList.Success((0 until movieArray.length()).map { index ->
-                movieArray.getJSONObject(
-                    index
-                )
-            }
-                .map { movieJSONObject ->
-                    val title = movieJSONObject.getString("Title")
-                    val year = movieJSONObject.getString("Year")
-                    val id = movieJSONObject.getString("imdbID")
-                    val type = movieJSONObject.getString("Type")
-                    Movie(title = title, year = year, id = id, type = type)
-                })
-        } catch (e: JSONException) {
+            val movies =
+                adapter.fromJson(JSONObject(responseBody).getJSONArray("Search").toString())
+            ResponseList.Success(movies!!)
+        } catch (e: Exception) {
             Log.e("Server", "parse response error = ${e.message}", e)
             ResponseList.Error(e.message.toString())
         }
+    }
+
+    fun addRating(movies: List<Movie>, position: Int, rating: String): List<Movie> {
+        val list: MutableList<Movie> = movies.toMutableList()
+        val range = MovieRating.values().indices
+        for (i in range) {
+            if(rating == MovieRating.values()[i].toString()) {
+                list[position].rating = MovieRating.valueOf(rating)
+                return list.toList()
+            }
+        }
+        return list.toList()
+    }
+
+    fun addRating(movies: List<Movie>, position: Int, rate: Map<String, String>): List<Movie> {
+        val list: MutableList<Movie> = movies.toMutableList()
+        list[position].score = rate
+        return list.toList()
     }
 }

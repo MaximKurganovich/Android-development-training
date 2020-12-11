@@ -1,11 +1,12 @@
 package com.example.moshi
 
-import SingleLiveEvent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.moshi.networking.Movie
-import com.example.moshi.networking.ObjectToSearch
+import com.example.moshi.networking.movie.Movie
+import com.example.moshi.networking.movie.MovieRating
+import com.example.moshi.networking.movie.ObjectToSearch
+import com.example.moshi.utils.SingleLiveEvent
 import okhttp3.Call
 
 class MovieViewModel: ViewModel() {
@@ -46,6 +47,14 @@ class MovieViewModel: ViewModel() {
             }
             currentCall = null
         }
+    }
+
+    fun addRating(position: Int,rating: String) {
+        moviesLiveData.postValue(userRepository.addRating(moviesLiveData.value.orEmpty(), position, rating))
+    }
+
+    fun addRating(position: Int, rate: Map<String, String>) {
+        moviesLiveData.postValue(userRepository.addRating(moviesLiveData.value.orEmpty(), position, rate))
     }
 
     override fun onCleared() {

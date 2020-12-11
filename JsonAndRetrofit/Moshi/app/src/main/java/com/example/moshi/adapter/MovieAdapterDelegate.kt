@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moshi.R
 import com.example.moshi.databinding.ForListMovieBinding
-import com.example.moshi.networking.Movie
+import com.example.moshi.networking.movie.Movie
 import com.example.moshi.utils.inflate
 import com.hannesdorfmann.adapterdelegates4.AbsListItemAdapterDelegate
 
@@ -14,7 +14,7 @@ import com.hannesdorfmann.adapterdelegates4.AbsListItemAdapterDelegate
     2. Общий тип списка
     3. Тип ViewHolder
  */
-class MovieAdapterDelegate() :
+class MovieAdapterDelegate(private val onItemClick: (position: Int) -> Unit) :
     AbsListItemAdapterDelegate<Movie, Movie, MovieAdapterDelegate.MovieHolder>() {
 
 
@@ -25,7 +25,7 @@ class MovieAdapterDelegate() :
 
     //    Создает VIewHolder
     override fun onCreateViewHolder(parent: ViewGroup): MovieHolder {
-        return MovieHolder(parent.inflate(R.layout.for_list_movie) as ViewGroup)
+        return MovieHolder(parent.inflate(R.layout.for_list_movie) as ViewGroup, onItemClick)
     }
 
     //    Связывает ViewHolder и элементы
@@ -36,15 +36,18 @@ class MovieAdapterDelegate() :
     /*    Класс Holder, который наследуется от интерфейса LayoutContainer
       Благодаря интерфейсу холдер знает какая вью корневая и можно получать вью из корневой из кэша, что повышает скорость работы
  */
-    class MovieHolder(private val containerView: ViewGroup) :
+    class MovieHolder(private val containerView: ViewGroup, onItemClick: (position: Int) -> Unit) :
         RecyclerView.ViewHolder(containerView) {
+        init {
+            containerView.setOnClickListener { onItemClick(adapterPosition) }
+        }
 
-        private lateinit var binding: ForListMovieBinding
+        private var binding = ForListMovieBinding.bind(containerView)
 
         //    Метод утснавливает поля значения
         fun bind(movie: Movie) {
             binding.movieTitle.text = movie.title
-            binding.yearOfIssue.text = movie.year
+            binding.yearOfIssue.text = movie.year.toString()
             binding.typeMovie.text = movie.type
         }
     }

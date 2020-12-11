@@ -4,5 +4,9 @@
     <string name="search_year_movie_for_edit_text">Введите год фильма</string>
     <string name="choosing_a_movie_type">Выберите тип фильма</string>
     <string name="search">Поиск</string>
+    <string name="generate_score">Сгенерировать оценку</string>
+    <string name="rate_the_movie">Поставьте рейтинг фильма</string>
+    <string name="select_an_estimate_source">Выберите источник оценки</string>
+    <string name="year_of_issue">Год выпуска</string>
 
 </resources>

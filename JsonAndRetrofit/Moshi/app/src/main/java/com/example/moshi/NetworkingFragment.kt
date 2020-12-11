@@ -1,35 +1,34 @@
 package com.example.moshi
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
-import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
-import androidx.appcompat.widget.AppCompatAutoCompleteTextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.moshi.adapter.FilmAdapter
 import com.example.moshi.databinding.NetworkingFragmentBinding
-import com.example.moshi.networking.ObjectToSearch
+import com.example.moshi.networking.movie.ObjectToSearch
 import com.example.moshi.utils.autoCleared
-import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import jp.wasabeef.recyclerview.animators.ScaleInAnimator
+import androidx.navigation.fragment.findNavController
 
 
 class NetworkingFragment : Fragment(R.layout.networking_fragment) {
 
     // Адаптер, который автоматически очистится при уничтожении фрагмента, благодаря свойству autoCleared()
     private var movieAdapter: FilmAdapter by autoCleared()
-    private val viewModel: MovieViewModel by viewModels()
+    private val viewModel: MovieViewModel by activityViewModels()
 
     private var binding: NetworkingFragmentBinding? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,7 +52,7 @@ class NetworkingFragment : Fragment(R.layout.networking_fragment) {
 
     //    Адаптеру присваиваются атрибуты и указывается тип LayoutManager
     private fun initList() {
-        movieAdapter = FilmAdapter()
+        movieAdapter = FilmAdapter { position -> openDetailsFragment(position) }
         binding!!.moviesList.apply {
             adapter = movieAdapter
             layoutManager = LinearLayoutManager(requireContext())
@@ -66,6 +65,15 @@ class NetworkingFragment : Fragment(R.layout.networking_fragment) {
             )
             itemAnimator = ScaleInAnimator()
         }
+    }
+
+    private fun openDetailsFragment(position: Int) {
+        val element = viewModel.getMoviesLiveData().value?.get(position)
+        val action = NetworkingFragmentDirections.actionNetworkingFragmentToDetailFragment(
+            element!!,
+            position
+        )
+        findNavController().navigate(action)
     }
 
 
@@ -127,22 +135,6 @@ class NetworkingFragment : Fragment(R.layout.networking_fragment) {
         binding!!.searchNameEditText.isEnabled = isLoading.not()
         binding!!.searchYearEditText.isEnabled = isLoading.not()
         binding!!.spinner.isEnabled = isLoading.not()
-    }
-
-    // Класс должен был помочь избавиться от бага, при котором после выбора типа фильма в
-    // AutoCompleteTextView и повороте экрана в списке оставался один ранее выбранный вариант
-    class ExposedDropDown(context: Context, attributeSet: AttributeSet?) :
-        MaterialAutoCompleteTextView(context, attributeSet) {
-        override fun getFreezesText(): Boolean {
-            return false
-        }
-    }
-
-    class ExposedDropdownMenu(context: Context, attributeSet: AttributeSet?) :
-        AppCompatAutoCompleteTextView(context, attributeSet) {
-        override fun getFreezesText(): Boolean {
-            return false
-        }
     }
 }
 

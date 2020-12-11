@@ -5,4 +5,9 @@
         <item>Эпизод</item>
         <item>Не выбрано</item>
     </string-array>
+    <string-array name="source_of_assessment">
+        <item>Internet Movie Database</item>
+        <item>Rotten Tomatoes</item>
+        <item>Metacritic</item>
+    </string-array>
 </resources>
