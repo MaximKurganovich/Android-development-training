@@ -9,7 +9,7 @@ class CustomInterceptor: Interceptor {
         val originalRequest = chain.request()
         return run {
             val modifiedRequest = originalRequest.newBuilder()
-                    .addHeader("Authorization", AccessToken.token)
+                    .addHeader("Authorization", "token " + AccessToken.token)
                     .build()
             chain.proceed(modifiedRequest)
         }

@@ -15,7 +15,7 @@ class UserInformationViewModel: ViewModel() {
     fun userInformation() {
         repository.userInformation(
             onComplete = {user -> userListLiveData.postValue(user)},
-            onError = {throwable -> userListLiveData.postValue(emptyList())}
+            onError = { userListLiveData.postValue(emptyList())}
         )
     }
 }

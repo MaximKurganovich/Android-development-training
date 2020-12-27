@@ -40,7 +40,6 @@ class AuthRepository {
                 response != null -> {
                     val accessToken = response.accessToken.orEmpty()
                     AccessToken.token = accessToken
-                    println("ОТВЕТ ТОКЕН = ${response.accessToken}")
                     onComplete()
                 }
                 else -> onError()

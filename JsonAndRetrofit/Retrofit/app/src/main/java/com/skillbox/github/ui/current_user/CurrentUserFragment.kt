@@ -20,7 +20,11 @@ class CurrentUserFragment : Fragment(R.layout.current_user_fragment) {
     private lateinit var binding: CurrentUserFragmentBinding
     private val userInformationViewModel: UserInformationViewModel by viewModels()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         binding = CurrentUserFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -38,10 +42,10 @@ class CurrentUserFragment : Fragment(R.layout.current_user_fragment) {
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(true)
             addItemDecoration(
-                    DividerItemDecoration(
-                            requireContext(),
-                            DividerItemDecoration.VERTICAL
-                    )
+                DividerItemDecoration(
+                    requireContext(),
+                    DividerItemDecoration.VERTICAL
+                )
             )
             itemAnimator = ScaleInAnimator()
         }
@@ -49,7 +53,7 @@ class CurrentUserFragment : Fragment(R.layout.current_user_fragment) {
 
     private fun userInformation() {
         userInformationViewModel.userInformation()
-        userInformationViewModel.userList.observe(viewLifecycleOwner) {userAdapter.items = it}
+        userInformationViewModel.userList.observe(viewLifecycleOwner) { userAdapter.items = it }
     }
 
 }

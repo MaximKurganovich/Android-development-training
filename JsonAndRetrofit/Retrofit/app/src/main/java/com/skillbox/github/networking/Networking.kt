@@ -19,7 +19,6 @@ object Networking {
             .client(okHttpClient)
             .build()
 
-    var accessToken = ""
 
     val githubApi: GithubApi
         get() = retrofit.create()

@@ -12,23 +12,22 @@ class UserInformationRepository {
         onError: (Throwable) -> Unit
     ) {
         Networking.githubApi.viewingUserInformation().enqueue(
-            object : Callback<List<UserInformation>> {
+            object : Callback<UserInformation> {
                 override fun onResponse(
-                    call: Call<List<UserInformation>>,
-                    response: Response<List<UserInformation>>
+                    call: Call<UserInformation>,
+                    response: Response<UserInformation>
                 ) {
                     if (response.isSuccessful) {
-                        onComplete(response.body().orEmpty())
-                        println("ОТВЕТ = ${response.body()}")
+                        val list = listOf(response.body()) as List<UserInformation>
+                        onComplete(list)
                     } else {
                         onError(RuntimeException("incorrect status code"))
                     }
                 }
 
-                override fun onFailure(call: Call<List<UserInformation>>, t: Throwable) {
+                override fun onFailure(call: Call<UserInformation>, t: Throwable) {
                     onError(t)
                 }
-
             }
         )
     }
