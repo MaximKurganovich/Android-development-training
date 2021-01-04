@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.skillbox.github.R
@@ -24,7 +26,7 @@ class RepositoryListFragment : Fragment(R.layout.repository_list_fragment) {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = RepositoryListFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -36,7 +38,7 @@ class RepositoryListFragment : Fragment(R.layout.repository_list_fragment) {
     }
 
     private fun initialSettings() {
-        repositoryAdapter = RepositoryAdapter()
+        repositoryAdapter = RepositoryAdapter { position -> openDetailFragment(position) }
         binding.repositoryList.apply {
             adapter = repositoryAdapter
             layoutManager = LinearLayoutManager(requireContext())
@@ -51,11 +53,18 @@ class RepositoryListFragment : Fragment(R.layout.repository_list_fragment) {
         }
     }
 
-    private fun getRepository(sort: String = "created") {
-        repositoryViewModel.getRepository(sort)
+    private fun getRepository(since: Int = 0) {
+        repositoryViewModel.getRepository(since)
         repositoryViewModel.repositoryList.observe(viewLifecycleOwner) {
             repositoryAdapter.items = it
         }
+    }
+
+    private fun openDetailFragment(position: Int) {
+        val element = repositoryViewModel.repositoryList.value?.get(position)
+        val action =
+            RepositoryListFragmentDirections.actionRepositoryListFragmentToDetailFragment(element!!.owner.login, element.name)
+        findNavController().navigate(action)
     }
 
 }

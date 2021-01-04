@@ -7,5 +7,15 @@ import com.squareup.moshi.JsonClass
 data class RepositoryInformation(
     var name: String,
     @Json(name = "full_name")
-    var fullName: String
+    var fullName: String,
+    var id: Int,
+    var owner: Owner
+)
+
+@JsonClass(generateAdapter = true)
+data class Owner(
+    var login: String,
+    var type: String,
+    @Json(name = "avatar_url")
+    var avatar: String,
 )

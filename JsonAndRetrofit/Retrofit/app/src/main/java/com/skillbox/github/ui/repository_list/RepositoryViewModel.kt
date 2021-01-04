@@ -9,14 +9,16 @@ class RepositoryViewModel : ViewModel() {
     private val repositoryListLiveData = MutableLiveData<List<RepositoryInformation>>(emptyList())
     private val repository = RepositoriesInformation()
 
+
     val repositoryList: LiveData<List<RepositoryInformation>>
         get() = repositoryListLiveData
 
-    fun getRepository(sort: String) {
+    fun getRepository(since: Int) {
         repository.getRepository(
-            sort,
+            since,
             onComplete = {repository -> repositoryListLiveData.postValue(repository)},
             onError = {repositoryListLiveData.postValue(emptyList())}
         )
     }
+
 }

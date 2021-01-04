@@ -8,28 +8,29 @@ import retrofit2.Response
 class RepositoriesInformation {
 
     fun getRepository(
-        sort: String,
+        since: Int,
         onComplete: (List<RepositoryInformation>) -> Unit,
         onError: (Throwable) -> Unit
     ) {
-        Networking.githubApi.getRepositories(sort).enqueue(
-            object : Callback<RepositoryInformation> {
+        Networking.githubApi.getRepositories(since).enqueue(
+            object : Callback<List<RepositoryInformation>> {
                 override fun onResponse(
-                    call: Call<RepositoryInformation>,
-                    response: Response<RepositoryInformation>
+                    call: Call<List<RepositoryInformation>>,
+                    response: Response<List<RepositoryInformation>>
                 ) {
                     if (response.isSuccessful) {
-                        val list = listOf(response.body()) as List<RepositoryInformation>
-                        onComplete(list)
+                        onComplete(response.body().orEmpty())
                     } else {
                         onError(RuntimeException("incorrect status code"))
                     }
                 }
 
-                override fun onFailure(call: Call<RepositoryInformation>, t: Throwable) {
+                override fun onFailure(call: Call<List<RepositoryInformation>>, t: Throwable) {
                     onError(t)
                 }
             }
         )
     }
+
+
 }

@@ -1,16 +1,18 @@
 package com.skillbox.github.ui.repository_list.adapter
 
+import android.annotation.SuppressLint
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.hannesdorfmann.adapterdelegates4.AbsListItemAdapterDelegate
 import com.skillbox.github.R
 import com.skillbox.github.databinding.RepositoryInformationBinding
-import com.skillbox.github.databinding.RepositoryInformationTwoBinding
 import com.skillbox.github.ui.repository_list.RepositoryInformation
 import com.skillbox.github.utils.inflate
 
-class RepositoryAdapterDelegate :
+class RepositoryAdapterDelegate(private val onItemClick: (position: Int) -> Unit) :
     AbsListItemAdapterDelegate<RepositoryInformation, RepositoryInformation, RepositoryAdapterDelegate.Holder>() {
 
     override fun isForViewType(
@@ -30,18 +32,24 @@ class RepositoryAdapterDelegate :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup): Holder {
-        return Holder(parent.inflate(R.layout.repository_information_two))
+        return Holder(parent.inflate(R.layout.repository_information), onItemClick)
     }
 
     class Holder(
-        containerView: View
+        containerView: View, onItemClick: (position: Int) -> Unit
     ) : RecyclerView.ViewHolder(containerView) {
+        init {
+            containerView.setOnClickListener { onItemClick(adapterPosition) }
+        }
 
-        private val binding = RepositoryInformationTwoBinding.bind(containerView)
+        private val binding = RepositoryInformationBinding.bind(containerView)
 
+        @SuppressLint("SetTextI18n")
         fun bind(repository: RepositoryInformation) {
             binding.name.text = repository.name
-            binding.fullName.text = repository.fullName
+            Glide.with(itemView).load(repository.owner.avatar).transform(CircleCrop())
+                .placeholder(R.drawable.ic_emoji)
+                .into(binding.avatar)
         }
     }
 }
